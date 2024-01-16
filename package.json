@@ -1,0 +1,36 @@
+{
+  "name": "brain-agriculture",
+  "version": "1.0.0",
+  "author": "Bruno Corrêa <brunosantos6ft@gmail.com",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "test": "jest --detectOpenHandles --runInBand --force-exit",
+    "build": "tsup src --out-dir build --external @jest/globals --external supertest",
+    "lint": "eslint src --ext .ts",
+    "lint-fix": "eslint src --ext .ts --fix"
+  },
+  "devDependencies": {
+    "@brinobruno/eslint-config": "^2.0.4",
+    "@types/dotenv": "^8.2.0",
+    "@types/jest": "^29.5.11",
+    "@types/node": "^20.11.4",
+    "@types/supertest": "^6.0.2",
+    "eslint": "^8.56.0",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.4",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@fastify/cors": "^8.5.0",
+    "dotenv": "^16.3.1",
+    "fastify": "^4.25.2",
+    "pg": "^8.11.3",
+    "ts-custom-error": "^3.3.1",
+    "tsup": "^8.0.1",
+    "tsx": "^4.7.0",
+    "zod": "^3.22.4"
+  }
+}
