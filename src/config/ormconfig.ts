@@ -9,6 +9,7 @@ const connectDB = new DataSource({
   logging: false,
   synchronize: true,
   entities: ['./src/Entities/**/*.ts'],
+  migrations: ['./src/migrations/*.ts'],
   extra: {
     ssl: {
       rejectUnauthorized: false,

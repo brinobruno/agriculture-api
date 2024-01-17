@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-import connectDB from '../config/ormconfig'
-import { Producer } from '../Entities/Producer'
+import connectDB from '../../config/ormconfig'
+import { Producer } from '../../Entities/Producer'
 
 export async function getProducers(
   _request: FastifyRequest,

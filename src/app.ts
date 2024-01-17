@@ -1,7 +1,7 @@
 import fastify from 'fastify'
 import cors from '@fastify/cors'
 
-import { usersRoutes } from './producers/producers.routes'
+import { usersRoutes } from './modules/producers/producers.routes'
 
 export const app = fastify()
 
