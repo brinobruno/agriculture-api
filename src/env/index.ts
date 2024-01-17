@@ -3,15 +3,14 @@ import { z } from 'zod'
 
 if (process.env.NODE_ENV === 'test') {
   config({ path: '.env.test', override: true })
-}
-else {
+} else {
   config() // Defaults to .env
 }
 
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('production'),
-  DATABASE_CLIENT: z.enum(['pg', 'sqlite']),
-  DATABASE_URL: z.string(),
+  DATABASE_CLIENT: z.enum(['pg']),
+  DATABASE_URI: z.string(),
   PORT: z.coerce.number().default(3000),
 })
 

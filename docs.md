@@ -16,3 +16,4 @@
 
 - A criação das estruturas de dados "mockados": faker.js, falso or typeorm-seeding (check later)
 
+- Docker? Necessary?

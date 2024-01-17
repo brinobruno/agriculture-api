@@ -1,5 +1,9 @@
+import 'reflect-metadata'
 import { app } from './app'
 import { env } from './env'
+import connectDB from './config/ormconfig'
+
+app.register(async () => await connectDB)
 
 app
   .listen({
