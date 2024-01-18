@@ -4,6 +4,7 @@ import { mockCpfCnpj } from '../shared/mockCpfCnpj'
 
 // Function to generate a random crop
 const generateCrop = () => ({
+  id: faker.string.uuid(),
   cropName: faker.helpers.arrayElement([
     'Soybean',
     'Corn',
@@ -15,11 +16,12 @@ const generateCrop = () => ({
 
 // Function to generate mock producer data
 export const generateProducer = () => ({
+  id: faker.string.uuid(),
   name: faker.person.fullName(),
   cpfCnpj: mockCpfCnpj(), // Custom function
-  farmName: faker.company.name,
-  city: faker.location.city,
-  state: faker.location.streetAddress,
+  farmName: faker.company.name(),
+  city: faker.location.city(),
+  state: faker.location.streetAddress(),
   totalAreaHectares: faker.number.float({ min: 1, max: 1000 }),
   cultivableAreaHectares: faker.number.float({ min: 1, max: 1000 }),
   vegetationAreaHectares: faker.number.float({ min: 1, max: 1000 }),
@@ -30,6 +32,4 @@ export const generateProducer = () => ({
 })
 
 // Generate an array of mock producers
-const mockProducers = Array.from({ length: 10 }, generateProducer)
-
-console.log(mockProducers)
+// const mockProducers = Array.from({ length: 10 }, generateProducer)

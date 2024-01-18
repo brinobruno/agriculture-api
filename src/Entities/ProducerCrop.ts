@@ -10,11 +10,16 @@ export class ProducerCrop extends BaseEntity {
   // Many to one/OneToOne without joinColumn will create auto
   // Foreign key
   @PrimaryGeneratedColumn('uuid')
-  id!: number
+  id!: string
 
   @ManyToOne(() => Producer, (producer) => producer.producerCrops)
   producer!: Producer
 
   @ManyToOne(() => Crop, (crop) => crop.producerCrops)
   crop!: Crop
+
+  constructor(data: Partial<ProducerCrop>) {
+    super()
+    Object.assign(this, data)
+  }
 }

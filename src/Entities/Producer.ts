@@ -8,11 +8,23 @@ import {
 
 import { ProducerCrop } from './ProducerCrop'
 
+// type ProducerData = {
+//   cpfCnpj?: string
+//   name?: string
+//   farmName?: string
+//   city?: string
+//   state?: string
+//   totalAreaHectares?: number
+//   cultivableAreaHectares?: number
+//   vegetationAreaHectares?: number
+//   producerCrops?: ProducerCrop[]
+// }
+
 @Entity()
 // Producer = produtor (rural)
 export class Producer extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  id!: number
+  id!: string
 
   @Column({ type: 'varchar', length: 255, unique: true, nullable: false })
   cpfCnpj!: string
