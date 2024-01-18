@@ -1,4 +1,4 @@
-import { Entity, Column, ManyToMany, JoinTable } from 'typeorm'
+import { Entity, Column, OneToMany } from 'typeorm'
 
 import { Base } from './Base'
 import { ProducerCrop } from './ProducerCrop'
@@ -9,7 +9,6 @@ export class Crop extends Base {
   @Column()
   name!: string
 
-  @ManyToMany(() => ProducerCrop, (producerCrop) => producerCrop.crop)
-  @JoinTable()
+  @OneToMany(() => ProducerCrop, (producerCrop) => producerCrop.crop)
   producerCrops!: ProducerCrop[]
 }
