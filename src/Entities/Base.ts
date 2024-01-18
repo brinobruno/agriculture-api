@@ -7,7 +7,7 @@ import {
 
 export abstract class Base extends BaseEntity {
   // Base class = DRY
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id!: number
 
   @CreateDateColumn({ type: 'timestamp' })

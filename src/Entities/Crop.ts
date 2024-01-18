@@ -6,7 +6,7 @@ import { ProducerCrop } from './ProducerCrop'
 @Entity()
 // Crop = cultura
 export class Crop extends Base {
-  @Column()
+  @Column({ type: 'varchar', length: 255, nullable: false })
   name!: string
 
   @OneToMany(() => ProducerCrop, (producerCrop) => producerCrop.crop)

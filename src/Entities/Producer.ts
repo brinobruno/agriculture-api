@@ -6,28 +6,28 @@ import { ProducerCrop } from './ProducerCrop'
 @Entity()
 // Producer = produtor (rural)
 export class Producer extends Base {
-  @Column()
+  @Column({ type: 'varchar', length: 255, unique: true, nullable: false })
   cpfCnpj!: string
 
-  @Column()
+  @Column({ type: 'varchar', length: 255, nullable: false })
   name!: string
 
-  @Column()
+  @Column({ type: 'varchar', length: 255, nullable: false })
   farmName!: string
 
-  @Column()
+  @Column({ type: 'varchar', length: 255, nullable: false })
   city!: string
 
-  @Column()
+  @Column({ type: 'varchar', length: 255, nullable: false })
   state!: string
 
-  @Column()
+  @Column({ type: 'float', nullable: false })
   totalAreaHectares!: number
 
-  @Column()
+  @Column({ type: 'float', nullable: false })
   cultivableAreaHectares!: number
 
-  @Column()
+  @Column({ type: 'float', nullable: false })
   vegetationAreaHectares!: number
 
   @OneToMany(() => ProducerCrop, (producerCrop) => producerCrop.producer)
