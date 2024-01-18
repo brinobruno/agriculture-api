@@ -1,11 +1,19 @@
-import { Entity, Column, OneToMany } from 'typeorm'
+import {
+  BaseEntity,
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+} from 'typeorm'
 
-import { Base } from './Base'
 import { ProducerCrop } from './ProducerCrop'
 
 @Entity()
 // Producer = produtor (rural)
-export class Producer extends Base {
+export class Producer extends BaseEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id!: number
+
   @Column({ type: 'varchar', length: 255, unique: true, nullable: false })
   cpfCnpj!: string
 
@@ -32,4 +40,11 @@ export class Producer extends Base {
 
   @OneToMany(() => ProducerCrop, (producerCrop) => producerCrop.producer)
   producerCrops!: ProducerCrop[]
+
+  constructor(data: Partial<Producer>) {
+    super()
+
+    // Assign properties
+    Object.assign(this, data)
+  }
 }

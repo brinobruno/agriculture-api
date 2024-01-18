@@ -14,7 +14,7 @@ const generateCrop = () => ({
 })
 
 // Function to generate mock producer data
-const generateProducer = () => ({
+export const generateProducer = () => ({
   name: faker.person.fullName(),
   cpfCnpj: mockCpfCnpj(), // Custom function
   farmName: faker.company.name,

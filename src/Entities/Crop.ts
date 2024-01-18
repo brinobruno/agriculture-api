@@ -1,11 +1,19 @@
-import { Entity, Column, OneToMany } from 'typeorm'
+import {
+  BaseEntity,
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+} from 'typeorm'
 
-import { Base } from './Base'
 import { ProducerCrop } from './ProducerCrop'
 
 @Entity()
 // Crop = cultura
-export class Crop extends Base {
+export class Crop extends BaseEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id!: number
+
   @Column({ type: 'varchar', length: 255, nullable: false })
   name!: string
 
