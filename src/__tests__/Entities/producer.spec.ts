@@ -56,7 +56,7 @@ describe('Producer Entity', () => {
     expect(producerInstance.producerCrops).toEqual(producerCropMockData)
   })
 
-  it('should throw an error for invalid CPF/CNPJ', () => {
+  it('should throw an error for invalid CPF/CNPJ', async () => {
     // Arrange
     const producerMockData = generateProducer()
     const producerCropMockData = Array.from(
@@ -80,7 +80,7 @@ describe('Producer Entity', () => {
     expect(producerInstance).toThrowError()
   })
 
-  it('should throw an error if cultivable area + vegetation area > total area', () => {
+  it('should throw an error if cultivable area + vegetation area > total area', async () => {
     // Arrange
     const producerMockData = generateProducer()
     const producerCropMockData = Array.from(
