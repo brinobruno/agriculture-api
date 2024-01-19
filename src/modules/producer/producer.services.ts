@@ -1,6 +1,6 @@
 import { Producer } from '../../Entities/Producer'
 import { ProducerCrop } from '../../Entities/ProducerCrop'
-import { findAllProducers } from './producer.repository'
+import { findAllProducers, findOneProducer } from './producer.repository'
 
 type createProducerServiceParams = {
   id: string
@@ -34,4 +34,8 @@ export const createProducer = async (
 
 export const getAllProducers = async () => {
   return await findAllProducers()
+}
+
+export const getProducerById = async (id: string) => {
+  return await findOneProducer(id)
 }
