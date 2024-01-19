@@ -7,6 +7,10 @@ import {
   findOneProducer,
   saveProducer,
 } from './producer.repository'
+import {
+  validateProducerCrops,
+  validateUsedLand,
+} from '../../shared/validateLand'
 
 type createProducerServiceParams = {
   id: string
@@ -28,12 +32,14 @@ export const createProducer = async (
 
   const { cultivableAreaHectares, vegetationAreaHectares, totalAreaHectares } =
     producerDataBody
-  const usedLandAreaHectares = cultivableAreaHectares + vegetationAreaHectares
 
-  if (usedLandAreaHectares > totalAreaHectares)
-    throw new Error('Used land area cannot be bigger than total area')
-  if (!producerDataBody.producerCrops)
-    throw new Error('Producer must provide crops')
+  validateUsedLand({
+    cultivableArea: cultivableAreaHectares,
+    vegetationArea: vegetationAreaHectares,
+    totalArea: totalAreaHectares,
+  })
+
+  validateProducerCrops({ producerCrops: producerDataBody.producerCrops })
 
   producerCrops = producerDataBody.producerCrops.map(
     (crop) => new ProducerCrop({ ...crop, id: v4() }),
