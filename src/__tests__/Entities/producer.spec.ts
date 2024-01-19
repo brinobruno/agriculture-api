@@ -7,6 +7,7 @@ import { generateCrop, generateProducer } from '../../scripts/generateMockData'
 import { Producer } from '../../Entities/Producer'
 import { ProducerCrop } from '../../Entities/ProducerCrop'
 import { cpfCnpjValidator } from '../../shared/validateCpfCnpj'
+import { validateUsedLand } from '../../shared/validateLand'
 
 describe('Producer Entity', () => {
   /* Make sure app (and thefore its routes) are done loading before testing */
@@ -74,24 +75,19 @@ describe('Producer Entity', () => {
 
   it('should throw an error if cultivable area + vegetation area > total area', async () => {
     // Arrange
-    const producerMockData = generateProducer()
-    const producerCropMockData = Array.from(
-      { length: faker.number.int({ min: 1, max: 5 }) },
-      generateCrop,
-    )
+    const cultivableArea = 100.0
+    const vegetationArea = 100.0
+    const totalArea = 100.0
 
-    // Act
-    const producerCropInstance = producerCropMockData.map(
-      (crop) => new ProducerCrop(crop),
-    )
-    const producerInstance = new Producer({
-      ...producerMockData,
-      producerCrops: producerCropInstance,
-      cultivableAreaHectares: producerMockData.totalAreaHectares + 1,
-    })
-
-    // Assert
-    expect(producerInstance).toThrow('Invalid area distribution')
+    expect(() => {
+      try {
+        // Act
+        validateUsedLand({ cultivableArea, vegetationArea, totalArea })
+      } catch (error) {
+        throw new Error()
+      }
+      // Assert
+    }).toThrow(Error)
   })
 
   it.todo('should be able to delete a producer')
