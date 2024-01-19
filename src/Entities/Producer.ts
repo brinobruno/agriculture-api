@@ -4,6 +4,8 @@ import {
   Column,
   PrimaryGeneratedColumn,
   OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm'
 
 import { ProducerCrop } from './ProducerCrop'
@@ -50,7 +52,19 @@ export class Producer extends BaseEntity {
   @Column({ type: 'float', nullable: false })
   vegetationAreaHectares!: number
 
-  @OneToMany(() => ProducerCrop, (producerCrop) => producerCrop.producer)
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  created_at!: Date
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
+  updated_at!: Date
+
+  @OneToMany(() => ProducerCrop, (producerCrop) => producerCrop.producerId, {
+    cascade: true,
+  })
   producerCrops!: ProducerCrop[]
 
   constructor(data: Partial<Producer>) {

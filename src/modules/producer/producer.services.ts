@@ -1,6 +1,11 @@
+import { faker } from '@faker-js/faker'
 import { Producer } from '../../Entities/Producer'
 import { ProducerCrop } from '../../Entities/ProducerCrop'
-import { findAllProducers, findOneProducer } from './producer.repository'
+import {
+  findAllProducers,
+  findOneProducer,
+  saveProducer,
+} from './producer.repository'
 
 type createProducerServiceParams = {
   id: string
@@ -12,24 +17,30 @@ type createProducerServiceParams = {
   totalAreaHectares: number
   cultivableAreaHectares: number
   vegetationAreaHectares: number
-  producerCrops: { id: string; cropName: string }[]
+  producerCrops: { cropName: string; areaHectares: number }[]
 }
 
 export const createProducer = async (
   producerDataBody: Partial<Producer> | createProducerServiceParams,
 ) => {
-  if (!producerDataBody.producerCrops) return
+  let producerCrops: ProducerCrop[] = []
+
+  if (producerDataBody.producerCrops) {
+    producerCrops = producerDataBody.producerCrops.map(
+      (crop) => new ProducerCrop({ ...crop, id: faker.string.uuid() }),
+    )
+  } else return
 
   const producer = new Producer({
     ...producerDataBody,
-    producerCrops: producerDataBody.producerCrops.map(
-      (crop) => new ProducerCrop(crop),
-    ),
+    producerCrops,
   })
 
-  // const createdProducer = await saveProducer(producer)
+  console.log(producer)
 
-  return producer
+  const createdProducer = await saveProducer(producer)
+
+  return createdProducer
 }
 
 export const getAllProducers = async () => {

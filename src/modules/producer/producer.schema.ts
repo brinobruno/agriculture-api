@@ -2,14 +2,13 @@ import { z } from 'zod'
 import { cpfCnpjValidator } from '../../shared/validateCpfCnpj'
 
 const producerCropSchema = z.object({
-  id: z.string().uuid(),
   cropName: z.string(),
+  areaHectares: z.number(),
 })
 
 // Add an object for storing repetitive error message or sentences
 
 export const createProducerSchema = z.object({
-  id: z.string().uuid(),
   name: z
     .string({
       required_error: 'Name is required',

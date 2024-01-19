@@ -1,22 +1,42 @@
-import { BaseEntity, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  BaseEntity,
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm'
 
 import { Producer } from './Producer'
-import { Crop } from './Crop'
 
 @Entity()
 // Producer crop = produtor cultura
-// Represent many-to-many for Producer/Crop
 export class ProducerCrop extends BaseEntity {
-  // Many to one/OneToOne without joinColumn will create auto
   // Foreign key
   @PrimaryGeneratedColumn('uuid')
   id!: string
 
-  @ManyToOne(() => Producer, (producer) => producer.producerCrops)
-  producer!: Producer
+  @Column({ type: 'varchar', length: 255, nullable: false })
+  cropName!: string
 
-  @ManyToOne(() => Crop, (crop) => crop.producerCrops)
-  crop!: Crop
+  @Column({ type: 'float', nullable: false })
+  areaHectares!: number
+
+  @ManyToOne(() => Producer, (producer) => producer.producerCrops, {
+    onDelete: 'CASCADE',
+  })
+  producerId!: Producer
+
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  created_at!: Date
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
+  updated_at!: Date
 
   constructor(data: Partial<ProducerCrop>) {
     super()

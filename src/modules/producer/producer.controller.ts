@@ -7,13 +7,15 @@ import {
   getProducerById,
 } from './producer.services'
 import { setIdParamsSchema } from '../../shared/schemas'
+import { faker } from '@faker-js/faker'
 
 export const producerController = {
   async create(request: FastifyRequest, reply: FastifyReply) {
+    const id = faker.string.uuid()
     const producerDataBody = createProducerSchema.parse(request.body)
 
     try {
-      const producer = await createProducer(producerDataBody)
+      const producer = await createProducer({ ...producerDataBody, id })
 
       return reply.status(201).send({
         message: 'Producer created successfully',

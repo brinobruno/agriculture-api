@@ -12,7 +12,11 @@ export const saveProducer = async (
 
 export const findAllProducers = async () => {
   try {
-    return await connectDB.manager.find(Producer)
+    return await connectDB.manager.find(Producer, {
+      relations: {
+        producerCrops: true,
+      },
+    })
   } catch (error) {
     console.error('Error finding producer by id:', error)
     throw error
@@ -23,6 +27,9 @@ export const findOneProducer = async (id: string) => {
     return await connectDB.manager.findOne(Producer, {
       where: {
         id,
+      },
+      relations: {
+        producerCrops: true,
       },
     })
   } catch (error) {

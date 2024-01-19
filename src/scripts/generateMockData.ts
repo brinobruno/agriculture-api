@@ -12,6 +12,7 @@ export const generateCrop = () => ({
     'Rice',
     'Cotton',
   ]),
+  areaHectares: faker.number.float({ min: 1, max: 1000 }),
 })
 
 // Function to generate mock producer data
