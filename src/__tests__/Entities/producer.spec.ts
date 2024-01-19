@@ -24,6 +24,7 @@ describe('Producer Entity', () => {
       ...producerMockData,
       producerCrops: [producerCropInstance],
     })
+    console.log(producerInstance)
 
     // Assert
     expect(producerInstance).toBeDefined()

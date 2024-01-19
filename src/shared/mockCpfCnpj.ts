@@ -7,11 +7,7 @@ const generateRandomNumber = (length: number) => {
 export const mockCpfCnpj = () => {
   const isCpf = Math.random() < 0.5 // 50% chance of generating CPF
 
-  if (isCpf) {
-    const cpfNumber = generateRandomNumber(11)
-    return `CPF_${cpfNumber}`
-  } else {
-    const cnpjNumber = generateRandomNumber(14)
-    return `CNPJ_${cnpjNumber}`
-  }
+  if (isCpf) return generateRandomNumber(11).toString() // CPF
+
+  return generateRandomNumber(14).toString() // CNPJ
 }
