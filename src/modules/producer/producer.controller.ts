@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { v4 } from 'uuid'
 
-import { createProducerSchema } from './producer.schema'
+import { createAndUpdateProducerSchema } from './producer.schema'
 import {
   createProducer,
   getAllProducers,
@@ -12,7 +12,7 @@ import { setIdParamsSchema } from '../../shared/schemas'
 export const producerController = {
   async create(request: FastifyRequest, reply: FastifyReply) {
     const id = v4()
-    const producerDataBody = createProducerSchema.parse(request.body)
+    const producerDataBody = createAndUpdateProducerSchema.parse(request.body)
 
     try {
       const producer = await createProducer({ ...producerDataBody, id })

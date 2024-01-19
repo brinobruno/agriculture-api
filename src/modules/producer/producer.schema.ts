@@ -8,7 +8,7 @@ const producerCropSchema = z.object({
 
 // Add an object for storing repetitive error message or sentences
 
-export const createProducerSchema = z.object({
+export const createAndUpdateProducerSchema = z.object({
   name: z
     .string({
       required_error: 'Name is required',
