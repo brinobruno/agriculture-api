@@ -13,7 +13,16 @@ export const cpfCnpjValidator = (cpfOrCnpjValue: string) => {
       ? cpf.isValid(cleanedValue)
       : cnpj.isValid(cleanedValue)
 
-  if (!isValidCpfOrCnpj) throw new z.ZodError([])
+  if (!isValidCpfOrCnpj) {
+    throw new z.ZodError([
+      {
+        code: 'invalid_string',
+        message: 'Invalid CPF or CNPJ',
+        path: [],
+        validation: 'regex',
+      },
+    ])
+  }
 
   return cleanedValue
 }
