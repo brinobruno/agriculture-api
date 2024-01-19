@@ -11,5 +11,10 @@ export const saveProducer = async (
 }
 
 export const findAllProducers = async () => {
-  return connectDB.manager.find(Producer)
+  try {
+    return await connectDB.manager.find(Producer)
+  } catch (error) {
+    console.error('Error finding producers:', error)
+    throw error
+  }
 }

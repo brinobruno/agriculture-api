@@ -1,28 +1,18 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-import { Producer } from '../../Entities/Producer'
 import { createProducerSchema } from './producer.schema'
-import { ProducerCrop } from '../../Entities/ProducerCrop'
-import { findAllProducers } from './producer.repository'
+import { createProducer, getAllProducers } from './producer.services'
 
 export const producerController = {
   async create(request: FastifyRequest, reply: FastifyReply) {
     const producerDataBody = createProducerSchema.parse(request.body)
 
     try {
-      const producer = new Producer({
-        ...producerDataBody,
-        producerCrops: producerDataBody.producerCrops.map(
-          (crop) => new ProducerCrop(crop),
-        ),
-      })
-
-      // const createdProducer = await saveProducer(producer)
+      const producer = await createProducer(producerDataBody)
 
       return reply.status(201).send({
         message: 'Producer created successfully',
         producer,
-        // createdProducer,
       })
     } catch (error) {
       console.error('Error creating producer:', error)
@@ -31,18 +21,15 @@ export const producerController = {
         .status(500)
         .send({ error: `Internal Server Error: ${error}` })
     }
-
-    // const producerRepository = connectDB.getRepository(Producer)
-    // const newProducer = producerRepository.create({})
-    // await producerRepository.save(newProducer)
   },
 
   async getAll(_request: FastifyRequest, reply: FastifyReply) {
     try {
-      const producers = findAllProducers()
+      const producers = await getAllProducers()
 
-      return await reply.status(200).send({
-        message: `${(await producers).length} producers found.`,
+      return reply.status(200).send({
+        message: `${producers.length} producers found.`,
+        numberOfProducers: producers.length,
         producers,
       })
     } catch (error) {
