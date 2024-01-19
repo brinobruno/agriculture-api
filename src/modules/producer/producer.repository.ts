@@ -22,6 +22,7 @@ export const findAllProducers = async () => {
     throw error
   }
 }
+
 export const findOneProducer = async (id: string) => {
   try {
     return await connectDB.manager.findOne(Producer, {
@@ -32,6 +33,36 @@ export const findOneProducer = async (id: string) => {
         producerCrops: true,
       },
     })
+  } catch (error) {
+    console.error('Error finding producer by id:', error)
+    throw error
+  }
+}
+
+export const updateProducer = async (
+  id: string,
+  producerData: Partial<Producer>,
+): Promise<Producer> => {
+  try {
+    const existingProducer = await connectDB.manager.findOne(Producer, {
+      where: {
+        id,
+      },
+      relations: {
+        producerCrops: true,
+      },
+    })
+
+    if (!existingProducer) {
+      throw new Error('Producer not found')
+    }
+
+    // Update fields
+    Object.assign(existingProducer, producerData)
+
+    const updatedProducer = await producerRepository.save(existingProducer)
+
+    return updatedProducer
   } catch (error) {
     console.error('Error finding producer by id:', error)
     throw error

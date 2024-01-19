@@ -6,6 +6,7 @@ import {
   createProducer,
   getAllProducers,
   getProducerById,
+  updateProducerById,
 } from './producer.services'
 import { setIdParamsSchema } from '../../shared/schemas'
 
@@ -62,8 +63,24 @@ export const producerController = {
     }
   },
 
-  async updateById(_request: FastifyRequest, _reply: FastifyReply) {
-    //
+  async updateById(request: FastifyRequest, reply: FastifyReply) {
+    const getProducerParamsSchema = setIdParamsSchema()
+    const { id } = getProducerParamsSchema.parse(request.params)
+
+    const producerDataBody = createAndUpdateProducerSchema.parse(request.body)
+
+    try {
+      const producer = await updateProducerById(id, { ...producerDataBody, id })
+
+      return reply.status(200).send({
+        message: 'producer updated successfully.',
+        producer,
+      })
+    } catch (error) {
+      return reply
+        .status(500)
+        .send({ error: `Error updating producer: ${error}` })
+    }
   },
 
   async deleteById(_request: FastifyRequest, _reply: FastifyReply) {

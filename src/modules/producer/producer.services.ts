@@ -5,6 +5,7 @@ import { ProducerCrop } from '../../Entities/ProducerCrop'
 import {
   findAllProducers,
   findOneProducer,
+  updateProducer,
   // saveProducer,
 } from './producer.repository'
 import {
@@ -12,7 +13,7 @@ import {
   validateUsedLand,
 } from '../../shared/validateLand'
 
-type createProducerServiceParams = {
+type createOrUpdateProducerType = {
   id: string
   cpfCnpj: string
   name: string
@@ -26,12 +27,12 @@ type createProducerServiceParams = {
 }
 
 export const createProducer = async (
-  producerDataBody: createProducerServiceParams,
+  producerBodyData: createOrUpdateProducerType,
 ) => {
   let producerCrops: ProducerCrop[] = []
 
   const { cultivableAreaHectares, vegetationAreaHectares, totalAreaHectares } =
-    producerDataBody
+    producerBodyData
 
   validateUsedLand({
     cultivableArea: cultivableAreaHectares,
@@ -39,14 +40,14 @@ export const createProducer = async (
     totalArea: totalAreaHectares,
   })
 
-  validateProducerCrops({ producerCrops: producerDataBody.producerCrops })
+  validateProducerCrops({ producerCrops: producerBodyData.producerCrops })
 
-  producerCrops = producerDataBody.producerCrops.map(
+  producerCrops = producerBodyData.producerCrops.map(
     (crop) => new ProducerCrop({ ...crop, id: v4() }),
   )
 
   const producer = new Producer({
-    ...producerDataBody,
+    ...producerBodyData,
     producerCrops,
   })
 
@@ -61,4 +62,35 @@ export const getAllProducers = async () => {
 
 export const getProducerById = async (id: string) => {
   return await findOneProducer(id)
+}
+
+export const updateProducerById = async (
+  id: string,
+  producerBodyData: createOrUpdateProducerType,
+) => {
+  let producerCrops: ProducerCrop[] = []
+
+  const { cultivableAreaHectares, vegetationAreaHectares, totalAreaHectares } =
+    producerBodyData
+
+  validateUsedLand({
+    cultivableArea: cultivableAreaHectares,
+    vegetationArea: vegetationAreaHectares,
+    totalArea: totalAreaHectares,
+  })
+
+  validateProducerCrops({ producerCrops: producerBodyData.producerCrops })
+
+  producerCrops = producerBodyData.producerCrops.map(
+    (crop) => new ProducerCrop({ ...crop, id: v4() }),
+  )
+
+  const producer = new Producer({
+    ...producerBodyData,
+    producerCrops,
+  })
+
+  const updatedProducer = await updateProducer(id, producer)
+
+  return updatedProducer
 }
