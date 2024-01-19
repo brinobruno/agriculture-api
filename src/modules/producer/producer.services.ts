@@ -5,7 +5,7 @@ import { ProducerCrop } from '../../Entities/ProducerCrop'
 import {
   findAllProducers,
   findOneProducer,
-  saveProducer,
+  // saveProducer,
 } from './producer.repository'
 import {
   validateProducerCrops,
@@ -50,11 +50,9 @@ export const createProducer = async (
     producerCrops,
   })
 
-  console.log(producer)
+  // const createdProducer = await saveProducer(producer)
 
-  const createdProducer = await saveProducer(producer)
-
-  return createdProducer
+  return producer
 }
 
 export const getAllProducers = async () => {
