@@ -2,6 +2,7 @@ import { z } from 'zod'
 import { cpfCnpjValidator } from '../../shared/validateCpfCnpj'
 
 const producerCropSchema = z.object({
+  id: z.string().uuid(),
   cropName: z.string(),
 })
 
