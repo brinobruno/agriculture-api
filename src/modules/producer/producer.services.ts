@@ -22,15 +22,22 @@ type createProducerServiceParams = {
 }
 
 export const createProducer = async (
-  producerDataBody: Partial<Producer> | createProducerServiceParams,
+  producerDataBody: createProducerServiceParams,
 ) => {
   let producerCrops: ProducerCrop[] = []
 
-  if (producerDataBody.producerCrops) {
-    producerCrops = producerDataBody.producerCrops.map(
-      (crop) => new ProducerCrop({ ...crop, id: v4() }),
-    )
-  } else return
+  const { cultivableAreaHectares, vegetationAreaHectares, totalAreaHectares } =
+    producerDataBody
+  const usedLandAreaHectares = cultivableAreaHectares + vegetationAreaHectares
+
+  if (usedLandAreaHectares > totalAreaHectares)
+    throw new Error('Used land area cannot be bigger than total area')
+  if (!producerDataBody.producerCrops)
+    throw new Error('Producer must provide crops')
+
+  producerCrops = producerDataBody.producerCrops.map(
+    (crop) => new ProducerCrop({ ...crop, id: v4() }),
+  )
 
   const producer = new Producer({
     ...producerDataBody,
