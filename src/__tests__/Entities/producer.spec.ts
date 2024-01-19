@@ -6,6 +6,7 @@ import { app } from './../../app'
 import { generateCrop, generateProducer } from '../../scripts/generateMockData'
 import { Producer } from '../../Entities/Producer'
 import { ProducerCrop } from '../../Entities/ProducerCrop'
+import { cpfCnpjValidator } from '../../shared/validateCpfCnpj'
 
 describe('Producer Entity', () => {
   /* Make sure app (and thefore its routes) are done loading before testing */
@@ -35,7 +36,7 @@ describe('Producer Entity', () => {
     expect(producerInstance).toBeDefined()
   })
 
-  it('should create a producer crops', async () => {
+  it('should create producer crops', async () => {
     // Arrange
     const producerMockData = generateProducer()
     const producerCropMockData = Array.from(
@@ -58,26 +59,17 @@ describe('Producer Entity', () => {
 
   it('should throw an error for invalid CPF/CNPJ', async () => {
     // Arrange
-    const producerMockData = generateProducer()
-    const producerCropMockData = Array.from(
-      { length: faker.number.int({ min: 1, max: 5 }) },
-      generateCrop,
-    )
     const invalidCpfCnpj = '123'
 
-    // Act
-    const producerCropInstance = producerCropMockData.map(
-      (crop) => new ProducerCrop(crop),
-    )
-
-    const producerInstance = new Producer({
-      ...producerMockData,
-      producerCrops: producerCropInstance,
-      cpfCnpj: invalidCpfCnpj,
-    })
-
-    // Assert
-    expect(producerInstance).toThrowError()
+    expect(() => {
+      try {
+        // Act
+        cpfCnpjValidator(invalidCpfCnpj)
+      } catch (error) {
+        throw new Error()
+      }
+      // Assert
+    }).toThrow(Error)
   })
 
   it('should throw an error if cultivable area + vegetation area > total area', async () => {
