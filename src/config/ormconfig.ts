@@ -6,7 +6,7 @@ import { env } from '../env'
 const connectDB = new DataSource({
   type: 'postgres',
   url: env.DATABASE_URI,
-  logging: false,
+  logging: true,
   synchronize: true,
   entities: ['./src/Entities/**/*.ts'],
   migrations: ['./src/migrations/*.ts'],
