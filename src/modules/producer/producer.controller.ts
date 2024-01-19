@@ -3,7 +3,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { Producer } from '../../Entities/Producer'
 import { createProducerSchema } from './producer.schema'
 import { ProducerCrop } from '../../Entities/ProducerCrop'
-import { findAllProducers, saveProducer } from './producer.repository'
+import { findAllProducers } from './producer.repository'
 
 export const producerController = {
   async create(request: FastifyRequest, reply: FastifyReply) {
@@ -17,11 +17,12 @@ export const producerController = {
         ),
       })
 
-      const createdProducer = await saveProducer(producer)
+      // const createdProducer = await saveProducer(producer)
 
       return reply.status(201).send({
         message: 'Producer created successfully',
-        createdProducer,
+        producer,
+        // createdProducer,
       })
     } catch (error) {
       console.error('Error creating producer:', error)

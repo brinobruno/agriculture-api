@@ -9,6 +9,7 @@ const producerCropSchema = z.object({
 // Add an object for storing repetitive error message or sentences
 
 export const createProducerSchema = z.object({
+  id: z.string().uuid(),
   name: z
     .string({
       required_error: 'Name is required',
