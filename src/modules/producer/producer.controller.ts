@@ -1,4 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { v4 } from 'uuid'
 
 import { createProducerSchema } from './producer.schema'
 import {
@@ -7,11 +8,10 @@ import {
   getProducerById,
 } from './producer.services'
 import { setIdParamsSchema } from '../../shared/schemas'
-import { faker } from '@faker-js/faker'
 
 export const producerController = {
   async create(request: FastifyRequest, reply: FastifyReply) {
-    const id = faker.string.uuid()
+    const id = v4()
     const producerDataBody = createProducerSchema.parse(request.body)
 
     try {

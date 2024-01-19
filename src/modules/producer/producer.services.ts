@@ -1,4 +1,5 @@
-import { faker } from '@faker-js/faker'
+import { v4 } from 'uuid'
+
 import { Producer } from '../../Entities/Producer'
 import { ProducerCrop } from '../../Entities/ProducerCrop'
 import {
@@ -27,7 +28,7 @@ export const createProducer = async (
 
   if (producerDataBody.producerCrops) {
     producerCrops = producerDataBody.producerCrops.map(
-      (crop) => new ProducerCrop({ ...crop, id: faker.string.uuid() }),
+      (crop) => new ProducerCrop({ ...crop, id: v4() }),
     )
   } else return
 
