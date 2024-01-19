@@ -15,11 +15,9 @@ export const producerController = {
         producer,
       })
     } catch (error) {
-      console.error('Error creating producer:', error)
-
       return reply
         .status(500)
-        .send({ error: `Internal Server Error: ${error}` })
+        .send({ error: `Error creating a producer: ${error}` })
     }
   },
 
@@ -33,7 +31,9 @@ export const producerController = {
         producers,
       })
     } catch (error) {
-      return reply.status(403).send({ error: `Something went wrong: ${error}` })
+      return reply
+        .status(500)
+        .send({ error: `Error getting producers: ${error}` })
     }
   },
 
