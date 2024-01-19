@@ -1,9 +1,9 @@
 // import request from 'supertest'
 import { describe, it, expect, beforeAll, afterAll } from '@jest/globals'
-
-import { generateCrop, generateProducer } from '../../scripts/generateMockData'
+import { faker } from '@faker-js/faker'
 
 import { app } from './../../app'
+import { generateCrop, generateProducer } from '../../scripts/generateMockData'
 import { Producer } from '../../Entities/Producer'
 import { ProducerCrop } from '../../Entities/ProducerCrop'
 
@@ -16,13 +16,18 @@ describe('Producer Entity', () => {
   it('should create a producer', async () => {
     // Arrange
     const producerMockData = generateProducer()
-    const producerCropMockData = generateCrop()
+    const producerCropMockData = Array.from(
+      { length: faker.number.int({ min: 1, max: 5 }) },
+      generateCrop,
+    )
 
     // Act
-    const producerCropInstance = new ProducerCrop(producerCropMockData)
+    const producerCropInstance = producerCropMockData.map(
+      (crop) => new ProducerCrop(crop),
+    )
     const producerInstance = new Producer({
       ...producerMockData,
-      producerCrops: [producerCropInstance],
+      producerCrops: producerCropInstance,
     })
     console.log(producerInstance)
 
