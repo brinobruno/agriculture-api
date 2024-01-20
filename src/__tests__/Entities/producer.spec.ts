@@ -22,11 +22,11 @@ import { ProducerCrop } from '../../Entities/ProducerCrop'
 import { cpfCnpjValidator } from '../../shared/validateCpfCnpj'
 import { validateUsedLand } from '../../shared/validateLand'
 import {
-  deleteProducer,
-  findOneProducer,
-  saveProducer,
-  updateProducer,
-} from '../../modules/producer/producer.repository'
+  createProducer,
+  deleteProducerById,
+  getProducerById,
+  updateProducerById,
+} from '../../modules/producer/producer.services'
 
 describe('Producer Entity', () => {
   /* Make sure app (and thefore its routes) and db are done loading before testing */
@@ -58,8 +58,8 @@ describe('Producer Entity', () => {
       producerCrops: producerCropInstance,
     })
 
-    const createdProducer = await saveProducer(producerInstance)
-    const retrievedProducer = await findOneProducer(createdProducer.id)
+    const createdProducer = await createProducer(producerInstance)
+    const retrievedProducer = await getProducerById(createdProducer.id)
 
     // Assert
     expect(createdProducer).toBeDefined()
@@ -84,8 +84,8 @@ describe('Producer Entity', () => {
       producerCrops: producerCropInstance,
     })
 
-    const createdProducer = await saveProducer(producerInstance)
-    const retrievedProducer = await findOneProducer(createdProducer.id)
+    const createdProducer = await createProducer(producerInstance)
+    const retrievedProducer = await getProducerById(createdProducer.id)
 
     // Assert
     expect(createdProducer.producerCrops).toEqual(
@@ -132,7 +132,7 @@ describe('Producer Entity', () => {
         producerCrops: producerCropInstance,
       })
 
-      await saveProducer(producerInstance)
+      await createProducer(producerInstance)
 
       throw new Error()
     } catch (error: any) {
@@ -141,6 +141,8 @@ describe('Producer Entity', () => {
       expect(error.message).toContain('invalid input syntax for type uuid')
     }
   })
+
+  it.todo('Should throw an error if user does not provide producer crops')
 
   it('should throw an error if cultivable area + vegetation area > total area', async () => {
     // Arrange
@@ -158,7 +160,7 @@ describe('Producer Entity', () => {
         vegetationAreaHectares: vegetationArea,
         totalAreaHectares: totalArea,
       })
-      await saveProducer(producerInstance)
+      await createProducer(producerInstance)
 
       validateUsedLand({
         cultivableArea: producerInstance.cultivableAreaHectares,
@@ -190,8 +192,8 @@ describe('Producer Entity', () => {
       producerCrops: producerCropInstance,
     })
 
-    const createdProducer = await saveProducer(producerInstance)
-    const retrievedProducer = await findOneProducer(createdProducer.id)
+    const createdProducer = await createProducer(producerInstance)
+    const retrievedProducer = await getProducerById(createdProducer.id)
 
     expect(retrievedProducer).toBeDefined()
     expect(createdProducer).toEqual(retrievedProducer)
@@ -199,39 +201,60 @@ describe('Producer Entity', () => {
 
   it('should be able to delete a producer', async () => {
     const producerMockData = generateProducer()
+    const producerCropMockData = Array.from(
+      { length: faker.number.int({ min: 1, max: 5 }) },
+      generateCrop,
+    )
 
+    const producerCropInstance = producerCropMockData.map(
+      (crop) => new ProducerCrop(crop),
+    )
     const producerInstance = new Producer(producerMockData)
-    await saveProducer(producerInstance)
+    await createProducer({
+      ...producerInstance,
+      producerCrops: producerCropInstance,
+    })
 
-    const existingProducer = await findOneProducer(producerInstance.id)
+    const existingProducer = await getProducerById(producerInstance.id)
     expect(existingProducer).toBeDefined()
 
-    await deleteProducer(producerInstance.id)
+    await deleteProducerById(producerInstance.id)
 
-    const deletedProducer = await findOneProducer(producerInstance.id)
+    const deletedProducer = await getProducerById(producerInstance.id)
     expect(deletedProducer).toBeNull()
   })
 
   it('should be able to edit a producer', async () => {
-    const producerMockData = generateProducer()
-
     const nameToUpdateAs = 'Updated name'
     const farmNameToUpdateAs = 'Updated farm name'
 
-    const producerInstance = new Producer(producerMockData)
-    await saveProducer(producerInstance)
+    const producerMockData = generateProducer()
+    const producerCropMockData = Array.from(
+      { length: faker.number.int({ min: 1, max: 5 }) },
+      generateCrop,
+    )
 
-    const existingProducer = await findOneProducer(producerInstance.id)
+    const producerCropInstance = producerCropMockData.map(
+      (crop) => new ProducerCrop(crop),
+    )
+    const producerInstance = new Producer({
+      ...producerMockData,
+      producerCrops: producerCropInstance,
+    })
+
+    await createProducer(producerInstance)
+
+    const existingProducer = await getProducerById(producerInstance.id)
     expect(existingProducer).toBeDefined()
     expect(existingProducer?.name).toEqual(producerMockData.name)
 
-    await updateProducer(producerInstance.id, {
-      ...existingProducer,
+    await updateProducerById(producerInstance.id, {
+      ...producerInstance,
       name: nameToUpdateAs,
       farmName: farmNameToUpdateAs,
     })
 
-    const updatedProducer = await findOneProducer(producerInstance.id)
+    const updatedProducer = await getProducerById(producerInstance.id)
 
     expect(updatedProducer).toBeDefined()
     expect(updatedProducer?.name).toEqual(nameToUpdateAs)
