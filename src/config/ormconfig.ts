@@ -6,7 +6,7 @@ import { env } from '../env'
 const connectDB = new DataSource({
   type: 'postgres',
   url: env.DATABASE_URI,
-  logging: true,
+  logging: false,
   synchronize: true,
   entities: ['./src/Entities/**/*.ts'],
   migrations: ['./src/migrations/*.ts'],
@@ -17,13 +17,25 @@ const connectDB = new DataSource({
   },
 })
 
-connectDB
-  .initialize()
-  .then(() => {
-    console.log(`Data Source has been initialized`)
-  })
-  .catch((err) => {
-    console.error(`Data Source initialization error`, err)
-  })
+// Condition to avoid beforeEach/afterEach excess logging
+const isNotTestEnv = env.NODE_ENV !== 'test'
 
-export default connectDB
+const initializeDataSource = async () => {
+  try {
+    await connectDB.initialize()
+    if (isNotTestEnv) console.log(`Data Source has been initialized`)
+  } catch (err) {
+    console.error(`Data Source initialization error`, err)
+  }
+}
+
+const closeDataSource = async () => {
+  try {
+    await connectDB.destroy()
+    if (isNotTestEnv) console.log(`Data Source has been closed`)
+  } catch (err) {
+    console.error(`Error closing Data Source`, err)
+  }
+}
+
+export { connectDB, initializeDataSource, closeDataSource }
