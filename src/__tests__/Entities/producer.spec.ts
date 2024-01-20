@@ -94,7 +94,7 @@ describe('Producer Entity', () => {
     )
   })
 
-  it('should throw an error for invalid CPF/CNPJ', async () => {
+  it('should throw an error for invalid CPF/CNPJ format', async () => {
     // Arrange
     const invalidCpfCnpj = '123'
 
