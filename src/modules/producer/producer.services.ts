@@ -7,7 +7,7 @@ import {
   findAllProducers,
   findOneProducer,
   updateProducer,
-  // saveProducer,
+  saveProducer,
 } from './producer.repository'
 import {
   validateProducerCrops,
@@ -52,9 +52,9 @@ export const createProducer = async (
     producerCrops,
   })
 
-  // const createdProducer = await saveProducer(producer)
+  const createdProducer = await saveProducer(producer)
 
-  return producer
+  return createdProducer
 }
 
 export const getAllProducers = async () => {
