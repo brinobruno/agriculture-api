@@ -1,4 +1,4 @@
-import connectDB from '../../config/ormconfig'
+import { connectDB } from '../../config/ormconfig'
 import { Producer } from '../../Entities/Producer'
 
 const producerRepository = connectDB.manager.getRepository(Producer)
