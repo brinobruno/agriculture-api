@@ -142,7 +142,22 @@ describe('Producer Entity', () => {
     }
   })
 
-  it.todo('Should throw an error if user does not provide producer crops')
+  it('should throw an error if user does not provide producer crops', async () => {
+    try {
+      // Arrange
+      const producerMockData = generateProducer()
+
+      // Act
+      const producerInstance = new Producer(producerMockData) // No crops provided
+
+      await createProducer(producerInstance)
+
+      throw new Error()
+    } catch (error) {
+      // Assert
+      expect(error).toBeInstanceOf(Error)
+    }
+  })
 
   it('should throw an error if cultivable area + vegetation area > total area', async () => {
     // Arrange
