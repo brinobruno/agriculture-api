@@ -63,9 +63,6 @@ describe('Producer Entity', () => {
     expect(createdProducer).toBeDefined()
     expect(retrievedProducer).toBeDefined()
     expect(retrievedProducer?.name).toEqual(producerMockData.name)
-    expect(retrievedProducer?.producerCrops).toHaveLength(
-      producerCropInstance.length,
-    )
   })
 
   it('should create producer crops', async () => {
@@ -85,8 +82,16 @@ describe('Producer Entity', () => {
       producerCrops: producerCropInstance,
     })
 
+    const createdProducer = await saveProducer(producerInstance)
+    const retrievedProducer = await findOneProducer(createdProducer.id)
+
     // Assert
-    expect(producerInstance.producerCrops).toEqual(producerCropMockData)
+    expect(createdProducer.producerCrops).toEqual(
+      retrievedProducer?.producerCrops,
+    )
+    expect(retrievedProducer?.producerCrops).toHaveLength(
+      producerCropInstance.length,
+    )
   })
 
   it('should throw an error for invalid CPF/CNPJ', async () => {
