@@ -135,7 +135,6 @@ describe('Producer Entity', () => {
       throw new Error()
     } catch (error: any) {
       // Assert
-      console.log(error)
       expect(error).toBeInstanceOf(QueryFailedError)
       expect(error.message).toContain('invalid input syntax for type uuid')
     }
@@ -147,15 +146,29 @@ describe('Producer Entity', () => {
     const vegetationArea = 100.0
     const totalArea = 100.0
 
-    expect(() => {
-      try {
-        // Act
-        validateUsedLand({ cultivableArea, vegetationArea, totalArea })
-      } catch (error) {
-        throw new Error()
-      }
+    try {
+      // Act
+      const producerMockData = generateProducer()
+
+      const producerInstance = new Producer({
+        ...producerMockData,
+        cultivableAreaHectares: cultivableArea,
+        vegetationAreaHectares: vegetationArea,
+        totalAreaHectares: totalArea,
+      })
+      await saveProducer(producerInstance)
+
+      validateUsedLand({
+        cultivableArea: producerInstance.cultivableAreaHectares,
+        vegetationArea: producerInstance.vegetationAreaHectares,
+        totalArea: producerInstance.totalAreaHectares,
+      })
+
+      throw new Error()
+    } catch (error) {
       // Assert
-    }).toThrow(Error)
+      expect(error).toBeInstanceOf(Error)
+    }
   })
 
   it('should be able to read a producer', async () => {
