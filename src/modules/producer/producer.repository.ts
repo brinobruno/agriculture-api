@@ -43,27 +43,17 @@ export const updateProducer = async (
   id: string,
   producerData: Partial<Producer>,
 ): Promise<Producer> => {
-  try {
-    const existingProducer = await findOneProducer(id)
-    if (!existingProducer) throw new Error('Producer not found')
+  const existingProducer = await findOneProducer(id)
+  if (!existingProducer) throw new Error('Producer not found')
 
-    Object.assign(existingProducer, producerData)
+  Object.assign(existingProducer, producerData)
 
-    return await producerRepository.save(existingProducer)
-  } catch (error) {
-    console.error('Error finding producer by id:', error)
-    throw error
-  }
+  return await producerRepository.save(existingProducer)
 }
 
 export const deleteProducer = async (id: string): Promise<void> => {
-  try {
-    const existingProducer = await findOneProducer(id)
-    if (!existingProducer) throw new Error('Producer not found')
+  const existingProducer = await findOneProducer(id)
+  if (!existingProducer) throw new Error('Producer not found')
 
-    await producerRepository.remove(existingProducer)
-  } catch (error) {
-    console.error('Error deleting producer:', error)
-    throw error
-  }
+  await producerRepository.remove(existingProducer)
 }
