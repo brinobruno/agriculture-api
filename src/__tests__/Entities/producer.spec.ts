@@ -21,7 +21,10 @@ import { Producer } from '../../Entities/Producer'
 import { ProducerCrop } from '../../Entities/ProducerCrop'
 import { cpfCnpjValidator } from '../../shared/validateCpfCnpj'
 import { validateUsedLand } from '../../shared/validateLand'
-import { saveProducer } from '../../modules/producer/producer.repository'
+import {
+  findOneProducer,
+  saveProducer,
+} from '../../modules/producer/producer.repository'
 
 describe('Producer Entity', () => {
   /* Make sure app (and thefore its routes) and db are done loading before testing */
@@ -54,11 +57,15 @@ describe('Producer Entity', () => {
     })
 
     const createdProducer = await saveProducer(producerInstance)
-
-    console.log(createdProducer)
+    const retrievedProducer = await findOneProducer(createdProducer.id)
 
     // Assert
     expect(createdProducer).toBeDefined()
+    expect(retrievedProducer).toBeDefined()
+    expect(retrievedProducer?.name).toEqual(producerMockData.name)
+    expect(retrievedProducer?.producerCrops).toHaveLength(
+      producerCropInstance.length,
+    )
   })
 
   it('should create producer crops', async () => {
