@@ -18,7 +18,7 @@ export const findAllProducers = async () => {
       },
     })
   } catch (error) {
-    console.error('Error finding producer by id:', error)
+    console.error('Error finding producers', error)
     throw error
   }
 }

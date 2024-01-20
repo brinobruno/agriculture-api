@@ -1,13 +1,35 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { dashboardService } from './dashboard.services'
 
 export const dashboardController = {
-  async getFarmsTotalQuantity(_request: FastifyRequest, reply: FastifyReply) {},
+  getFarmsTotalQuantity: async (
+    _request: FastifyRequest,
+    reply: FastifyReply,
+  ) => {
+    const totalQuantity = await dashboardService.getFarmsTotalQuantity()
+    reply.send({ totalQuantity })
+  },
 
-  async getFarmsTotalHectares(_request: FastifyRequest, reply: FastifyReply) {},
+  getFarmsTotalHectares: async (
+    _request: FastifyRequest,
+    reply: FastifyReply,
+  ) => {
+    const totalHectares = await dashboardService.getFarmsTotalHectares()
+    reply.send({ totalHectares })
+  },
 
-  async getFarmsByState(_request: FastifyRequest, reply: FastifyReply) {},
+  getFarmsByState: async (_request: FastifyRequest, reply: FastifyReply) => {
+    const farmsByState = await dashboardService.getFarmsByState()
+    reply.send({ farmsByState })
+  },
 
-  async getFarmsByCulture(_request: FastifyRequest, reply: FastifyReply) {},
+  getFarmsByCulture: async (_request: FastifyRequest, reply: FastifyReply) => {
+    const farmsByCulture = await dashboardService.getFarmsByCulture()
+    reply.send({ farmsByCulture })
+  },
 
-  async getSoilUsageRatio(_request: FastifyRequest, reply: FastifyReply) {},
+  getSoilUsageRatio: async (_request: FastifyRequest, reply: FastifyReply) => {
+    const soilUsageRatio = await dashboardService.getSoilUsageRatio()
+    reply.send({ soilUsageRatio })
+  },
 }
