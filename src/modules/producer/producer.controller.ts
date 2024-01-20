@@ -4,6 +4,7 @@ import { v4 } from 'uuid'
 import { createAndUpdateProducerSchema } from './producer.schema'
 import {
   createProducer,
+  deleteProducerById,
   getAllProducers,
   getProducerById,
   updateProducerById,
@@ -83,7 +84,16 @@ export const producerController = {
     }
   },
 
-  async deleteById(_request: FastifyRequest, _reply: FastifyReply) {
-    //
+  async deleteById(request: FastifyRequest, reply: FastifyReply) {
+    const getProducerParamsSchema = setIdParamsSchema()
+    const { id } = getProducerParamsSchema.parse(request.params)
+
+    try {
+      await deleteProducerById(id)
+      return reply.status(204).send()
+    } catch (error) {
+      console.error('Error deleting producer:', error)
+      return reply.status(500).send({ error: 'Error deleting producer' })
+    }
   },
 }

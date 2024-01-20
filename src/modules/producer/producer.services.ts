@@ -3,6 +3,7 @@ import { v4 } from 'uuid'
 import { Producer } from '../../Entities/Producer'
 import { ProducerCrop } from '../../Entities/ProducerCrop'
 import {
+  deleteProducer,
   findAllProducers,
   findOneProducer,
   updateProducer,
@@ -95,4 +96,12 @@ export const updateProducerById = async (
   })
 
   return updatedProducer
+}
+
+export const deleteProducerById = async (id: string) => {
+  const existingProducer = await findOneProducer(id)
+
+  if (!existingProducer) throw new Error('Producer not found')
+
+  await deleteProducer(id)
 }

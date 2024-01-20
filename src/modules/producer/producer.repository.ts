@@ -55,3 +55,15 @@ export const updateProducer = async (
     throw error
   }
 }
+
+export const deleteProducer = async (id: string): Promise<void> => {
+  try {
+    const existingProducer = await findOneProducer(id)
+    if (!existingProducer) throw new Error('Producer not found')
+
+    await producerRepository.remove(existingProducer)
+  } catch (error) {
+    console.error('Error deleting producer:', error)
+    throw error
+  }
+}
