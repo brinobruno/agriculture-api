@@ -81,16 +81,18 @@ export const updateProducerById = async (
 
   validateProducerCrops({ producerCrops: producerBodyData.producerCrops })
 
+  const existingProducer = await findOneProducer(id)
+  if (!existingProducer) throw new Error('Producer not found')
+
   producerCrops = producerBodyData.producerCrops.map(
-    (crop) => new ProducerCrop({ ...crop, id: v4() }),
+    (crop) => new ProducerCrop({ ...crop, id }),
   )
 
-  const producer = new Producer({
+  const updatedProducer = await updateProducer(id, {
+    ...existingProducer,
     ...producerBodyData,
     producerCrops,
   })
-
-  const updatedProducer = await updateProducer(id, producer)
 
   return updatedProducer
 }

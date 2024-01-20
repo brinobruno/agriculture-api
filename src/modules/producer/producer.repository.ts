@@ -44,25 +44,12 @@ export const updateProducer = async (
   producerData: Partial<Producer>,
 ): Promise<Producer> => {
   try {
-    const existingProducer = await connectDB.manager.findOne(Producer, {
-      where: {
-        id,
-      },
-      relations: {
-        producerCrops: true,
-      },
-    })
+    const existingProducer = await findOneProducer(id)
+    if (!existingProducer) throw new Error('Producer not found')
 
-    if (!existingProducer) {
-      throw new Error('Producer not found')
-    }
-
-    // Update fields
     Object.assign(existingProducer, producerData)
 
-    const updatedProducer = await producerRepository.save(existingProducer)
-
-    return updatedProducer
+    return await producerRepository.save(existingProducer)
   } catch (error) {
     console.error('Error finding producer by id:', error)
     throw error
