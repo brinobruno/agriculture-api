@@ -1,4 +1,3 @@
-// import request from 'supertest'
 import {
   describe,
   it,
@@ -8,6 +7,7 @@ import {
   beforeEach,
   afterEach,
 } from '@jest/globals'
+import { QueryFailedError } from 'typeorm'
 import { faker } from '@faker-js/faker'
 
 import {
@@ -94,7 +94,7 @@ describe('Producer Entity', () => {
     )
   })
 
-  it('should throw an error for invalid CPF/CNPJ format', async () => {
+  it('should throw an error through cpfCnpjValidator with invalid CPF/CNPJ format', async () => {
     // Arrange
     const invalidCpfCnpj = '123'
 
@@ -107,6 +107,38 @@ describe('Producer Entity', () => {
       }
       // Assert
     }).toThrow(Error)
+  })
+
+  it('should throw an error for invalid CPF/CNPJ format', async () => {
+    // Arrange
+    const invalidCpfCnpj = '123'
+
+    const producerMockData = generateProducer()
+    const producerCropMockData = Array.from(
+      { length: faker.number.int({ min: 1, max: 5 }) },
+      generateCrop,
+    )
+
+    // Act
+    try {
+      const producerCropInstance = producerCropMockData.map(
+        (crop) => new ProducerCrop(crop),
+      )
+      const producerInstance = new Producer({
+        ...producerMockData,
+        id: invalidCpfCnpj,
+        producerCrops: producerCropInstance,
+      })
+
+      await saveProducer(producerInstance)
+
+      throw new Error()
+    } catch (error: any) {
+      // Assert
+      console.log(error)
+      expect(error).toBeInstanceOf(QueryFailedError)
+      expect(error.message).toContain('invalid input syntax for type uuid')
+    }
   })
 
   it('should throw an error if cultivable area + vegetation area > total area', async () => {
