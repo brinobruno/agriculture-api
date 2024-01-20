@@ -22,6 +22,7 @@ import { ProducerCrop } from '../../Entities/ProducerCrop'
 import { cpfCnpjValidator } from '../../shared/validateCpfCnpj'
 import { validateUsedLand } from '../../shared/validateLand'
 import {
+  deleteProducer,
   findOneProducer,
   saveProducer,
 } from '../../modules/producer/producer.repository'
@@ -195,7 +196,21 @@ describe('Producer Entity', () => {
     expect(createdProducer).toEqual(retrievedProducer)
   })
 
-  it.todo('should be able to delete a producer')
+  it('should be able to delete a producer', async () => {
+    const producerMockData = generateProducer()
+
+    const producerInstance = new Producer(producerMockData)
+    await saveProducer(producerInstance)
+
+    const existingProducer = await findOneProducer(producerInstance.id)
+    expect(existingProducer).toBeDefined()
+
+    await deleteProducer(producerInstance.id)
+
+    const deletedProducer = await findOneProducer(producerInstance.id)
+    expect(deletedProducer).toBeNull()
+  })
+
   it.todo('should be able to edit a producer')
   it.todo('should be able to grow more than one crop in the farm')
   it.todo('should be able to display amount of farms in quantity')
