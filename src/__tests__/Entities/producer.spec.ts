@@ -25,6 +25,7 @@ import {
   deleteProducer,
   findOneProducer,
   saveProducer,
+  updateProducer,
 } from '../../modules/producer/producer.repository'
 
 describe('Producer Entity', () => {
@@ -211,7 +212,32 @@ describe('Producer Entity', () => {
     expect(deletedProducer).toBeNull()
   })
 
-  it.todo('should be able to edit a producer')
+  it('should be able to edit a producer', async () => {
+    const producerMockData = generateProducer()
+
+    const nameToUpdateAs = 'Updated name'
+    const farmNameToUpdateAs = 'Updated farm name'
+
+    const producerInstance = new Producer(producerMockData)
+    await saveProducer(producerInstance)
+
+    const existingProducer = await findOneProducer(producerInstance.id)
+    expect(existingProducer).toBeDefined()
+    expect(existingProducer?.name).toEqual(producerMockData.name)
+
+    await updateProducer(producerInstance.id, {
+      ...existingProducer,
+      name: nameToUpdateAs,
+      farmName: farmNameToUpdateAs,
+    })
+
+    const updatedProducer = await findOneProducer(producerInstance.id)
+
+    expect(updatedProducer).toBeDefined()
+    expect(updatedProducer?.name).toEqual(nameToUpdateAs)
+    expect(updatedProducer?.farmName).toEqual(farmNameToUpdateAs)
+  })
+
   it.todo('should be able to grow more than one crop in the farm')
   it.todo('should be able to display amount of farms in quantity')
   it.todo('should be able to display amount of farms in hectares - total area')
