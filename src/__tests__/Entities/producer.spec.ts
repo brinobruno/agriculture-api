@@ -1,19 +1,40 @@
 // import request from 'supertest'
-import { describe, it, expect, beforeAll, afterAll } from '@jest/globals'
+import {
+  describe,
+  it,
+  expect,
+  beforeAll,
+  afterAll,
+  beforeEach,
+  afterEach,
+} from '@jest/globals'
 import { faker } from '@faker-js/faker'
 
+import {
+  connectDB,
+  initializeDataSource,
+  closeDataSource,
+} from '../../config/ormconfig'
 import { app } from './../../app'
 import { generateCrop, generateProducer } from '../../scripts/generateMockData'
 import { Producer } from '../../Entities/Producer'
 import { ProducerCrop } from '../../Entities/ProducerCrop'
 import { cpfCnpjValidator } from '../../shared/validateCpfCnpj'
 import { validateUsedLand } from '../../shared/validateLand'
+import { saveProducer } from '../../modules/producer/producer.repository'
 
 describe('Producer Entity', () => {
-  /* Make sure app (and thefore its routes) are done loading before testing */
+  /* Make sure app (and thefore its routes) and db are done loading before testing */
   beforeAll(async () => await app.ready())
-
   afterAll(async () => await app.close())
+
+  beforeEach(async () => await initializeDataSource())
+  afterEach(async () => {
+    await connectDB.transaction(async (transactionalEntityManager) => {
+      await transactionalEntityManager.query('ROLLBACK;')
+    })
+    await closeDataSource()
+  })
 
   it('should be able to create a producer', async () => {
     // Arrange
@@ -31,10 +52,13 @@ describe('Producer Entity', () => {
       ...producerMockData,
       producerCrops: producerCropInstance,
     })
-    console.log(producerInstance)
+
+    const createdProducer = await saveProducer(producerInstance)
+
+    console.log(createdProducer)
 
     // Assert
-    expect(producerInstance).toBeDefined()
+    expect(createdProducer).toBeDefined()
   })
 
   it('should create producer crops', async () => {
