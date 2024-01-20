@@ -276,7 +276,6 @@ describe('Producer Entity', () => {
     expect(updatedProducer?.farmName).toEqual(farmNameToUpdateAs)
   })
 
-  it.todo('should be able to grow more than one crop in the farm')
   it.todo('should be able to display amount of farms in quantity')
   it.todo('should be able to display amount of farms in hectares - total area')
   it.todo('should be able to display amount of farms by state')
