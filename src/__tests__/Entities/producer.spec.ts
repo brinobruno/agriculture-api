@@ -126,9 +126,32 @@ describe('Producer Entity', () => {
     }).toThrow(Error)
   })
 
+  it('should be able to read a producer', async () => {
+    // Arrange
+    const producerMockData = generateProducer()
+    const producerCropMockData = Array.from(
+      { length: faker.number.int({ min: 1, max: 5 }) },
+      generateCrop,
+    )
+
+    // Act
+    const producerCropInstance = producerCropMockData.map(
+      (crop) => new ProducerCrop(crop),
+    )
+    const producerInstance = new Producer({
+      ...producerMockData,
+      producerCrops: producerCropInstance,
+    })
+
+    const createdProducer = await saveProducer(producerInstance)
+    const retrievedProducer = await findOneProducer(createdProducer.id)
+
+    expect(retrievedProducer).toBeDefined()
+    expect(createdProducer).toEqual(retrievedProducer)
+  })
+
   it.todo('should be able to delete a producer')
   it.todo('should be able to edit a producer')
-  it.todo('should be able to read a producer')
   it.todo('should be able to grow more than one crop in the farm')
   it.todo('should be able to display amount of farms in quantity')
   it.todo('should be able to display amount of farms in hectares - total area')
