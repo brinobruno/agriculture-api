@@ -17,6 +17,7 @@ import {
 } from '../../config/ormconfig'
 import { app } from './../../app'
 import { generateCrop, generateProducer } from '../../scripts/generateMockData'
+import { createMockProducer } from '../../scripts/createMockProducer'
 import { Producer } from '../../Entities/Producer'
 import { ProducerCrop } from '../../Entities/ProducerCrop'
 import { cpfCnpjValidator } from '../../shared/validateCpfCnpj'
@@ -27,6 +28,7 @@ import {
   getProducerById,
   updateProducerById,
 } from '../../modules/producer/producer.services'
+import { CONSTANTS } from '../../shared/constants'
 
 describe('Producer Entity', () => {
   /* Make sure app (and thefore its routes) and db are done loading before testing */
@@ -44,20 +46,7 @@ describe('Producer Entity', () => {
 
   it('should be able to create a producer', async () => {
     // Arrange
-    const producerMockData = generateProducer()
-    const producerCropMockData = Array.from(
-      { length: faker.number.int({ min: 1, max: 5 }) },
-      generateCrop,
-    )
-
-    // Act
-    const producerCropInstance = producerCropMockData.map(
-      (crop) => new ProducerCrop(crop),
-    )
-    const producerInstance = new Producer({
-      ...producerMockData,
-      producerCrops: producerCropInstance,
-    })
+    const { producerMockData, producerInstance } = createMockProducer()
 
     const createdProducer = await createProducer(producerInstance)
     const retrievedProducer = await getProducerById(createdProducer.id)
@@ -70,20 +59,7 @@ describe('Producer Entity', () => {
 
   it('should create producer crops', async () => {
     // Arrange
-    const producerMockData = generateProducer()
-    const producerCropMockData = Array.from(
-      { length: faker.number.int({ min: 1, max: 5 }) },
-      generateCrop,
-    )
-
-    // Act
-    const producerCropInstance = producerCropMockData.map(
-      (crop) => new ProducerCrop(crop),
-    )
-    const producerInstance = new Producer({
-      ...producerMockData,
-      producerCrops: producerCropInstance,
-    })
+    const { producerCropInstance, producerInstance } = createMockProducer()
 
     const createdProducer = await createProducer(producerInstance)
     const retrievedProducer = await getProducerById(createdProducer.id)
@@ -193,20 +169,7 @@ describe('Producer Entity', () => {
 
   it('should be able to read a producer', async () => {
     // Arrange
-    const producerMockData = generateProducer()
-    const producerCropMockData = Array.from(
-      { length: faker.number.int({ min: 1, max: 5 }) },
-      generateCrop,
-    )
-
-    // Act
-    const producerCropInstance = producerCropMockData.map(
-      (crop) => new ProducerCrop(crop),
-    )
-    const producerInstance = new Producer({
-      ...producerMockData,
-      producerCrops: producerCropInstance,
-    })
+    const { producerInstance } = createMockProducer()
 
     const createdProducer = await createProducer(producerInstance)
     const retrievedProducer = await getProducerById(createdProducer.id)
@@ -216,20 +179,8 @@ describe('Producer Entity', () => {
   })
 
   it('should be able to delete a producer', async () => {
-    const producerMockData = generateProducer()
-    const producerCropMockData = Array.from(
-      { length: faker.number.int({ min: 1, max: 5 }) },
-      generateCrop,
-    )
-
-    const producerCropInstance = producerCropMockData.map(
-      (crop) => new ProducerCrop(crop),
-    )
-    const producerInstance = new Producer(producerMockData)
-    await createProducer({
-      ...producerInstance,
-      producerCrops: producerCropInstance,
-    })
+    const { producerInstance } = createMockProducer()
+    await createProducer(producerInstance)
 
     const existingProducer = await getProducerById(producerInstance.id)
     expect(existingProducer).toBeDefined()
@@ -241,22 +192,7 @@ describe('Producer Entity', () => {
   })
 
   it('should be able to edit a producer', async () => {
-    const nameToUpdateAs = 'Updated name'
-    const farmNameToUpdateAs = 'Updated farm name'
-
-    const producerMockData = generateProducer()
-    const producerCropMockData = Array.from(
-      { length: faker.number.int({ min: 1, max: 5 }) },
-      generateCrop,
-    )
-
-    const producerCropInstance = producerCropMockData.map(
-      (crop) => new ProducerCrop(crop),
-    )
-    const producerInstance = new Producer({
-      ...producerMockData,
-      producerCrops: producerCropInstance,
-    })
+    const { producerMockData, producerInstance } = createMockProducer()
 
     await createProducer(producerInstance)
 
@@ -266,15 +202,15 @@ describe('Producer Entity', () => {
 
     await updateProducerById(producerInstance.id, {
       ...producerInstance,
-      name: nameToUpdateAs,
-      farmName: farmNameToUpdateAs,
+      name: CONSTANTS.TEST_NAME_TO_UPDATE,
+      farmName: CONSTANTS.TEST_FARMNAME_TO_UPDATE,
     })
 
     const updatedProducer = await getProducerById(producerInstance.id)
 
     expect(updatedProducer).toBeDefined()
-    expect(updatedProducer?.name).toEqual(nameToUpdateAs)
-    expect(updatedProducer?.farmName).toEqual(farmNameToUpdateAs)
+    expect(updatedProducer?.name).toEqual(CONSTANTS.TEST_NAME_TO_UPDATE)
+    expect(updatedProducer?.farmName).toEqual(CONSTANTS.TEST_FARMNAME_TO_UPDATE)
   })
 
   it.todo('should be able to display amount of farms in quantity')

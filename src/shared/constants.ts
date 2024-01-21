@@ -1,3 +1,6 @@
 export const CONSTANTS = {
   CPF_NUMBERS_AMOUNT: 11,
+  TEST_NUMBER_PRODUCERS_TO_CREATE: 5,
+  TEST_NAME_TO_UPDATE: 'Updated name',
+  TEST_FARMNAME_TO_UPDATE: 'Updated farm name',
 }

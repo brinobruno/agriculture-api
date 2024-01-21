@@ -7,7 +7,6 @@ import {
   beforeEach,
   afterEach,
 } from '@jest/globals'
-import { faker } from '@faker-js/faker'
 
 import {
   initializeDataSource,
@@ -15,11 +14,10 @@ import {
   truncateDatabase,
 } from '../config/ormconfig'
 import { app } from './../app'
-import { generateCrop, generateProducer } from '../scripts/generateMockData'
-import { Producer } from '../Entities/Producer'
-import { ProducerCrop } from '../Entities/ProducerCrop'
 import { createProducer } from '../modules/producer/producer.services'
 import { dashboardService } from '../modules/dashboard/dashboard.services'
+import { CONSTANTS } from '../shared/constants'
+import { createMockProducer } from '../scripts/createMockProducer'
 
 describe('Dashboard features', () => {
   /* Make sure app (and thefore its routes) and db are done loading before testing */
@@ -37,25 +35,12 @@ describe('Dashboard features', () => {
 
   it('should be able to display amount of farms in quantity', async () => {
     // Arrange
-    const numberOfProducers = 5
+    const numberOfProducers = CONSTANTS.TEST_NUMBER_PRODUCERS_TO_CREATE
     let producersCount = 0
 
     // Act
     for (let i = 0; i < numberOfProducers; i++) {
-      const producerMockData = generateProducer()
-      const producerCropMockData = Array.from(
-        { length: faker.number.int({ min: 1, max: 5 }) },
-        generateCrop,
-      )
-
-      const producerCropInstance = producerCropMockData.map(
-        (crop) => new ProducerCrop(crop),
-      )
-      const producerInstance = new Producer({
-        ...producerMockData,
-        producerCrops: producerCropInstance,
-      })
-
+      const { producerInstance } = createMockProducer()
       await createProducer(producerInstance)
 
       producersCount++
