@@ -6,30 +6,58 @@ export const dashboardController = {
     _request: FastifyRequest,
     reply: FastifyReply,
   ) => {
-    const totalQuantity = await dashboardService.getFarmsTotalQuantity()
-    reply.send({ totalQuantity })
+    try {
+      const totalQuantity = await dashboardService.getFarmsTotalQuantity()
+      reply.status(200).send({ totalQuantity })
+    } catch (error) {
+      reply
+        .status(500)
+        .send({ error: `Error retrieving total quantity: ${error}` })
+    }
   },
 
   getFarmsTotalHectares: async (
     _request: FastifyRequest,
     reply: FastifyReply,
   ) => {
-    const totalHectares = await dashboardService.getFarmsTotalHectares()
-    reply.send({ totalHectares })
+    try {
+      const totalHectares = await dashboardService.getFarmsTotalHectares()
+      reply.status(200).send({ totalHectares })
+    } catch (error) {
+      reply
+        .status(500)
+        .send({ error: `Error retrieving total hectares: ${error}` })
+    }
   },
 
   getFarmsByState: async (_request: FastifyRequest, reply: FastifyReply) => {
-    const farmsByState = await dashboardService.getFarmsByState()
-    reply.send({ farmsByState })
+    try {
+      const farmsByState = await dashboardService.getFarmsByState()
+      reply.status(200).send({ farmsByState })
+    } catch (error) {
+      reply
+        .status(500)
+        .send({ error: `Error retrieving farms by state: ${error}` })
+    }
   },
 
   getFarmsByCrop: async (_request: FastifyRequest, reply: FastifyReply) => {
-    const farmsByCrop = await dashboardService.getFarmsByCrop()
-    reply.send({ farmsByCrop })
+    try {
+      const farmsByCrop = await dashboardService.getFarmsByCrop()
+      reply.status(200).send({ farmsByCrop })
+    } catch (error) {
+      reply
+        .status(500)
+        .send({ error: `Error retrieving farms by crop: ${error}` })
+    }
   },
 
   getLandUsageRatio: async (_request: FastifyRequest, reply: FastifyReply) => {
-    const landUsageRatio = await dashboardService.getLandUsageRatio()
-    reply.send({ landUsageRatio })
+    try {
+      const landUsageRatio = await dashboardService.getLandUsageRatio()
+      reply.status(200).send({ landUsageRatio })
+    } catch (error) {
+      reply.status(500).send({ error: `Error retrieving land usage: ${error}` })
+    }
   },
 }
