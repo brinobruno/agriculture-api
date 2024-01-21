@@ -24,6 +24,10 @@ export const dashboardRepository = {
       .groupBy('producer.state')
       .getRawMany()
 
+    // returns: "farmsByState": [
+    //   { "state": "state X", "count": "2" }
+    // ]
+
     return Object.fromEntries(
       result.map((item) => [item.state, item.count]),
     ) as { [state: string]: number }
@@ -36,6 +40,10 @@ export const dashboardRepository = {
       .select('crop.cropName as culture, COUNT(*) as count')
       .groupBy('crop.cropName')
       .getRawMany()
+
+    // returns: "farmsByState": [
+    //   { "state": "state X", "count": "2" }
+    // ]
 
     return Object.fromEntries(
       result.map((item) => [item.culture, item.count]),
