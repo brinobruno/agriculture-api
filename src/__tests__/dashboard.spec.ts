@@ -71,7 +71,28 @@ describe('Dashboard features', () => {
     expect(farmsTotalHectares).toEqual(totalHectares)
   })
 
-  it.todo('should be able to display amount of farms by state')
+  it('should be able to display amount of farms by state', async () => {
+    // Arrange
+    const numberOfProducers = CONSTANTS.TEST_NUMBER_PRODUCERS_TO_CREATE
+    let countSum = 0
+
+    // Act
+    for (let i = 0; i < numberOfProducers; i++) {
+      const { producerInstance } = createMockProducer()
+      await createProducer(producerInstance)
+    }
+
+    const farmsByState = await dashboardService.getFarmsByState()
+
+    for (const value of Object.values(farmsByState)) {
+      countSum += Number(value)
+    }
+
+    // Assert
+    expect(farmsByState).toBeDefined()
+    expect(countSum).toBe(CONSTANTS.TEST_NUMBER_PRODUCERS_TO_CREATE)
+  })
+
   it.todo('should be able to display amount of farms by crop')
   it.todo(
     'should be able to display amount of land usage - cultivable + vegetation',
