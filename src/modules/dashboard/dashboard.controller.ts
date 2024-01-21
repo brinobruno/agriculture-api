@@ -28,8 +28,8 @@ export const dashboardController = {
     reply.send({ farmsByCrop })
   },
 
-  getSoilUsageRatio: async (_request: FastifyRequest, reply: FastifyReply) => {
-    const soilUsageRatio = await dashboardService.getSoilUsageRatio()
-    reply.send({ soilUsageRatio })
+  getLandUsageRatio: async (_request: FastifyRequest, reply: FastifyReply) => {
+    const landUsageRatio = await dashboardService.getLandUsageRatio()
+    reply.send({ landUsageRatio })
   },
 }

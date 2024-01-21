@@ -7,5 +7,5 @@ export async function dashboardRoutes(app: FastifyInstance) {
   app.get('/total-hectares', dashboardController.getFarmsTotalHectares)
   app.get('/farms-by-state', dashboardController.getFarmsByState)
   app.get('/farms-by-crop', dashboardController.getFarmsByCrop)
-  app.get('/soil-usage-ratio', dashboardController.getSoilUsageRatio)
+  app.get('/land-usage-ratio', dashboardController.getLandUsageRatio)
 }

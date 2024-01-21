@@ -130,7 +130,7 @@ describe('Dashboard features', () => {
       expectedLandUsage.vegetation += producerInstance.vegetationAreaHectares
     }
 
-    const landUsage = await dashboardService.getSoilUsageRatio()
+    const landUsage = await dashboardService.getLandUsageRatio()
 
     // Assert
     expect(landUsage).toBeDefined()

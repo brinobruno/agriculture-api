@@ -23,8 +23,8 @@ export const dashboardService = {
     return await dashboardRepository.getFarmsByCrop()
   },
 
-  getSoilUsageRatio: async () => {
-    // Implement logic to calculate soil usage ratio
+  getLandUsageRatio: async () => {
+    // Implement logic to calculate land usage ratio
     // Example:
     const producers = await dashboardRepository.getTotalFarms()
     const totalCultivableArea = producers.reduce(
@@ -40,12 +40,12 @@ export const dashboardService = {
       0,
     )
 
-    const soilUsageRatio = {
+    const landUsageRatio = {
       cultivableArea: totalCultivableArea,
       vegetationArea: totalVegetationArea,
       totalArea,
     }
 
-    return soilUsageRatio
+    return landUsageRatio
   },
 }
