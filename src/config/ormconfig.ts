@@ -38,4 +38,13 @@ const closeDataSource = async () => {
   }
 }
 
-export { connectDB, initializeDataSource, closeDataSource }
+const truncateDatabase = async () => {
+  const entities = connectDB.entityMetadatas
+
+  for (const entity of entities) {
+    const repository = connectDB.manager.getRepository(entity.name)
+    await repository.query(`TRUNCATE TABLE "${entity.tableName}" CASCADE;`)
+  }
+}
+
+export { connectDB, initializeDataSource, closeDataSource, truncateDatabase }
