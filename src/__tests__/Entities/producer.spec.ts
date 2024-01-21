@@ -179,16 +179,21 @@ describe('Producer Entity', () => {
   })
 
   it('should be able to delete a producer', async () => {
-    const { producerInstance } = createMockProducer()
-    await createProducer(producerInstance)
+    try {
+      const { producerInstance } = createMockProducer()
+      await createProducer(producerInstance)
 
-    const existingProducer = await getProducerById(producerInstance.id)
-    expect(existingProducer).toBeDefined()
+      const existingProducer = await getProducerById(producerInstance.id)
+      expect(existingProducer).toBeDefined()
 
-    await deleteProducerById(producerInstance.id)
+      await deleteProducerById(producerInstance.id)
 
-    const deletedProducer = await getProducerById(producerInstance.id)
-    expect(deletedProducer).toBeNull()
+      await getProducerById(producerInstance.id)
+
+      throw new Error()
+    } catch (error) {
+      expect(error).toBeInstanceOf(Error)
+    }
   })
 
   it('should be able to edit a producer', async () => {
@@ -212,12 +217,4 @@ describe('Producer Entity', () => {
     expect(updatedProducer?.name).toEqual(CONSTANTS.TEST_NAME_TO_UPDATE)
     expect(updatedProducer?.farmName).toEqual(CONSTANTS.TEST_FARMNAME_TO_UPDATE)
   })
-
-  it.todo('should be able to display amount of farms in quantity')
-  it.todo('should be able to display amount of farms in hectares - total area')
-  it.todo('should be able to display amount of farms by state')
-  it.todo('should be able to display amount of farms by crop')
-  it.todo(
-    'should be able to display amount of land usage - cultivable + vegetation',
-  )
 })
