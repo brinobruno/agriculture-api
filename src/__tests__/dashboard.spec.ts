@@ -116,7 +116,25 @@ describe('Dashboard features', () => {
     expect(farmsByCrop).toEqual(expectedFarmsByCrop)
   })
 
-  it.todo(
-    'should be able to display amount of land usage - cultivable + vegetation',
-  )
+  it('should be able to display amount of land usage - cultivable + vegetation', async () => {
+    // Arrange
+    const numberOfProducers = CONSTANTS.TEST_NUMBER_PRODUCERS_TO_CREATE
+    const expectedLandUsage = { cultivable: 0, vegetation: 0 }
+
+    // Act
+    for (let i = 0; i < numberOfProducers; i++) {
+      const { producerInstance } = createMockProducer()
+      await createProducer(producerInstance)
+
+      expectedLandUsage.cultivable += producerInstance.cultivableAreaHectares
+      expectedLandUsage.vegetation += producerInstance.vegetationAreaHectares
+    }
+
+    const landUsage = await dashboardService.getSoilUsageRatio()
+
+    // Assert
+    expect(landUsage).toBeDefined()
+    expect(landUsage.cultivableArea).toBe(expectedLandUsage.cultivable)
+    expect(landUsage.vegetationArea).toBe(expectedLandUsage.vegetation)
+  })
 })
