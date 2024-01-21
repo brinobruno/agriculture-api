@@ -93,7 +93,29 @@ describe('Dashboard features', () => {
     expect(countSum).toBe(CONSTANTS.TEST_NUMBER_PRODUCERS_TO_CREATE)
   })
 
-  it.todo('should be able to display amount of farms by crop')
+  it('should be able to display amount of farms by crop', async () => {
+    // Arrange
+    const numberOfProducers = CONSTANTS.TEST_NUMBER_PRODUCERS_TO_CREATE
+    const expectedFarmsByCrop: {
+      [crop: string]: number
+    } = {}
+
+    // Act
+    for (let i = 0; i < numberOfProducers; i++) {
+      const { producerInstance } = createMockProducer()
+      await createProducer(producerInstance)
+
+      producerInstance.producerCrops.forEach(({ cropName }) => {
+        expectedFarmsByCrop[cropName] = (expectedFarmsByCrop[cropName] || 0) + 1
+      })
+    }
+
+    const farmsByCrop = await dashboardService.getFarmsByCrop()
+
+    // Assert
+    expect(farmsByCrop).toEqual(expectedFarmsByCrop)
+  })
+
   it.todo(
     'should be able to display amount of land usage - cultivable + vegetation',
   )
