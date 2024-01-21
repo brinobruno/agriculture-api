@@ -11,9 +11,9 @@ import { QueryFailedError } from 'typeorm'
 import { faker } from '@faker-js/faker'
 
 import {
-  connectDB,
   initializeDataSource,
   closeDataSource,
+  truncateDatabase,
 } from '../../config/ormconfig'
 import { app } from './../../app'
 import { generateCrop, generateProducer } from '../../scripts/generateMockData'
@@ -33,11 +33,12 @@ describe('Producer Entity', () => {
   beforeAll(async () => await app.ready())
   afterAll(async () => await app.close())
 
-  beforeEach(async () => await initializeDataSource())
+  beforeEach(async () => {
+    await initializeDataSource()
+    await truncateDatabase()
+  })
   afterEach(async () => {
-    await connectDB.transaction(async (transactionalEntityManager) => {
-      await transactionalEntityManager.query('ROLLBACK;')
-    })
+    await truncateDatabase()
     await closeDataSource()
   })
 
