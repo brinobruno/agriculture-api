@@ -62,7 +62,10 @@ export const getAllProducers = async () => {
 }
 
 export const getProducerById = async (id: string) => {
-  return await findOneProducer(id)
+  const producerFound = await findOneProducer(id)
+  if (!producerFound) throw new Error('No producer was found with this id')
+
+  return producerFound
 }
 
 export const updateProducerById = async (
