@@ -19,8 +19,8 @@ export const dashboardService = {
     return await dashboardRepository.getFarmsByState()
   },
 
-  getFarmsByCulture: async () => {
-    return await dashboardRepository.getFarmsByCulture()
+  getFarmsByCrop: async () => {
+    return await dashboardRepository.getFarmsByCrop()
   },
 
   getSoilUsageRatio: async () => {

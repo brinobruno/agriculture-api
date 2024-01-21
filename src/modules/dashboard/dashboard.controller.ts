@@ -23,9 +23,9 @@ export const dashboardController = {
     reply.send({ farmsByState })
   },
 
-  getFarmsByCulture: async (_request: FastifyRequest, reply: FastifyReply) => {
-    const farmsByCulture = await dashboardService.getFarmsByCulture()
-    reply.send({ farmsByCulture })
+  getFarmsByCrop: async (_request: FastifyRequest, reply: FastifyReply) => {
+    const farmsByCrop = await dashboardService.getFarmsByCrop()
+    reply.send({ farmsByCrop })
   },
 
   getSoilUsageRatio: async (_request: FastifyRequest, reply: FastifyReply) => {

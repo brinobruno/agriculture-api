@@ -29,24 +29,20 @@ export const dashboardRepository = {
     // ]
 
     return Object.fromEntries(
-      result.map((item) => [item.state, item.count]),
+      result.map((item) => [item.state, Number(item.count)]),
     ) as { [state: string]: number }
   },
 
-  async getFarmsByCulture(): Promise<{ [culture: string]: number }> {
+  async getFarmsByCrop(): Promise<{ [crop: string]: number }> {
     const result = await producerRepository
       .createQueryBuilder('producer')
       .innerJoinAndSelect('producer.producerCrops', 'crop')
-      .select('crop.cropName as culture, COUNT(*) as count')
+      .select('crop.cropName as crop, COUNT(*) as count')
       .groupBy('crop.cropName')
       .getRawMany()
 
-    // returns: "farmsByState": [
-    //   { "state": "state X", "count": "2" }
-    // ]
-
     return Object.fromEntries(
-      result.map((item) => [item.culture, item.count]),
-    ) as { [culture: string]: number }
+      result.map((item) => [item.crop, Number(item.count)]),
+    ) as { [crop: string]: number }
   },
 }
