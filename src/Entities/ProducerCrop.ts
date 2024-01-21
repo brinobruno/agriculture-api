@@ -13,7 +13,6 @@ import { Producer } from './Producer'
 @Entity()
 // Producer crop = produtor cultura
 export class ProducerCrop extends BaseEntity {
-  // Foreign key
   @PrimaryGeneratedColumn('uuid')
   id!: string
 

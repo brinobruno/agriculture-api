@@ -10,20 +10,8 @@ import {
 
 import { ProducerCrop } from './ProducerCrop'
 
-// type ProducerData = {
-//   cpfCnpj?: string
-//   name?: string
-//   farmName?: string
-//   city?: string
-//   state?: string
-//   totalAreaHectares?: number
-//   cultivableAreaHectares?: number
-//   vegetationAreaHectares?: number
-//   producerCrops?: ProducerCrop[]
-// }
-
-@Entity()
 // Producer = produtor (rural)
+@Entity()
 export class Producer extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string
