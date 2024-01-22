@@ -248,6 +248,35 @@ paths:
           description: No content
         '500':
           description: Error deleting producer
+          
+  /dashboard/:
+    get:
+      summary: Get full data
+      tags:
+        - Dashboard
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                dashboardData:
+                  totalQuantity: 2,
+                  totalHectares: 1566.5163660347462,
+                  farmsByState: {
+                    "9131 8th Avenue": 1,
+                    "Fountain Valley": 2                  
+                  }
+                  farmsByCrop: {
+                    "Rice": 1,
+                    "Cotton": 2,
+                    "Soybean": 4
+                  }       
+                  landUsageRatio: {
+                    "cultivableArea": 587.0907633593306,
+                    "vegetationArea": 489.2126205670648,
+                    "totalArea": 1566.5163660347462
+                  }                      
 
   /dashboard/total-quantity:
     get:
