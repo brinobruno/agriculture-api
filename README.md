@@ -1,32 +1,75 @@
-# Teste - Brain Agriculture
+# REST API - Brain agriculture
 
-O teste tem como objetivo acurar as habilidades do candidato em resolver alguns problemas relacionados à lógica de programação, regra de negócio e orientação à objetos.
+The entire application is contained within the `app.rb` file.
 
-O mesmo consiste em um cadastro de produtor rural com os seguintes dados:
+## Pre-requisites
+- Node 18
+- Postgres
+- Yarn/NPM
 
-1.  CPF ou CNPJ
-2.  Nome do produtor
-3.  Nome da Fazenda
-4.  Cidade
-5.  Estado
-6.  Área total em hectares da fazenda
-7.  Área agricultável em hectares
-8.  Área de vegetação em hectares
-9.  Culturas plantadas (Soja, Milho, Algodão, Café, Cana de Açucar)
+## Getting started
 
-# Requisitos de negócio
+    git clone https://github.com/brinobruno/agriculture-api <local_dir>
 
-- O usuário deverá ter a possibilidade de cadastrar, editar, e excluir produtores rurais.
-- O sistema deverá validar CPF e CNPJ digitados incorretamente.
-- A soma de área agrícultável e vegetação, não deverá ser maior que a área total da fazenda
-- Cada produtor pode plantar mais de uma cultura em sua Fazenda.
-- A plataforma deverá ter um Dashboard que exiba:
-  - Total de fazendas em quantidade
-  - Total de fazendas em hectares (área total)
-  - Gráfico de pizza por estado.
-  - Gráfico de pizza por cultura.
-  - Gráfico de pizza por uso de solo (Área agricultável e vegetação)
+## Environment variables: DEV (also check .env)
+- NODE_ENV=development
+- DATABASE_URI=postgresql://YOUR_USER:YOUR_PASSWORD@localhost:5432/YOUR_DB_NAME
+- DATABASE_CLIENT=pg
+- PORT=3000
 
-# Requisitos técnicos
-- O desenvolvedor back-end deve:
-  - Salvar os dados em um banco de dados Postgres usando o NodeJS como layer de Backend, e entregar os endpoints para cadastrar, editar, e excluir produtores rurais, além do endpoint que retorne os totais para o dashboard.
+## Environment variables: TEST (also check .env)
+- NODE_ENV='test'
+- DATABASE_URI=postgresql://YOUR_USER:YOUR_PASSWORD@localhost:5432/YOUR_TESTING_DB_NAME
+- DATABASE_CLIENT=pg
+- PORT=3000
+
+## Install dependencies
+using: yarn
+
+    yarn
+    
+using: npm
+
+    npm i
+
+## Run the app
+using: yarn
+
+    cd <local_dir>
+    yarn dev
+    
+using: npm
+
+    cd <local_dir>
+    npm run dev
+
+## Run the tests
+
+    ./run-tests.sh
+
+## Endpoints
+Check swagger.yaml for more info
+
+### Producers
+`POST /api/v1/producers`
+
+`GET /api/v1/producers`
+
+`GET /api/v1/producers:id`
+
+`PUT /api/v1/producers:id`
+
+`DELETE /api/v1/producers:id`
+
+### Dashboard
+`GET /api/v1/dashboard`
+
+`GET /api/v1/dashboard/total-quantity`
+
+`GET /api/v1/dashboard/total-hectares`
+
+`GET /api/v1/dashboard/farms-by-state`
+
+`GET /api/v1/dashboard/farms-by-crop`
+
+`GET /api/v1/dashboard/land-usage-ratio`
