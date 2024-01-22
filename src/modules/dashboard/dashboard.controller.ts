@@ -2,6 +2,28 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { dashboardService } from './dashboard.services'
 
 export const dashboardController = {
+  getFullData: async (_request: FastifyRequest, reply: FastifyReply) => {
+    try {
+      const totalQuantity = await dashboardService.getFarmsTotalQuantity()
+      const totalHectares = await dashboardService.getFarmsTotalHectares()
+      const farmsByState = await dashboardService.getFarmsByState()
+      const farmsByCrop = await dashboardService.getFarmsByCrop()
+      const landUsageRatio = await dashboardService.getLandUsageRatio()
+
+      reply.status(200).send({
+        dashboardData: {
+          totalQuantity,
+          totalHectares,
+          farmsByState,
+          farmsByCrop,
+          landUsageRatio,
+        },
+      })
+    } catch (error) {
+      reply.status(500).send({ error: `Error retrieving full data: ${error}` })
+    }
+  },
+
   getFarmsTotalQuantity: async (
     _request: FastifyRequest,
     reply: FastifyReply,
