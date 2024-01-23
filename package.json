@@ -28,6 +28,8 @@
   "dependencies": {
     "@fastify/cors": "^8.5.0",
     "@fastify/postgres": "^5.2.2",
+    "@fastify/swagger": "^8.14.0",
+    "@fastify/swagger-ui": "^2.1.0",
     "cpf-cnpj-validator": "^1.0.3",
     "dotenv": "^16.3.1",
     "fastify": "^4.25.2",
