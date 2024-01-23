@@ -1,0 +1,514 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Producer A1PI",
+    "description": "AP2I for managing producers and their information",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://localhost:3000/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Producers"
+    },
+    {
+      "name": "Dashboard"
+    }
+  ],
+  "paths": {
+    "/producers": {
+      "post": {
+        "summary": "Create a new producer",
+        "tags": [
+          "Producers"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "Meghan Homenick",
+                "cpfCnpj": "233.860.966-20",
+                "farmName": "Fay and Sons",
+                "city": "9131 8th Avenue",
+                "state": "Fountain Valley",
+                "totalAreaHectares": 783.2581830173731,
+                "cultivableAreaHectares": 293.5453816796653,
+                "vegetationAreaHectares": 244.6063102835324,
+                "producerCrops": [
+                  {
+                    "cropName": "Soybean",
+                    "areaHectares": 104.2
+                  },
+                  {
+                    "cropName": "Rice",
+                    "areaHectares": 100
+                  },
+                  {
+                    "cropName": "Cotton",
+                    "areaHectares": 100
+                  },
+                  {
+                    "cropName": "Rice",
+                    "areaHectares": 100
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Producer created successfully",
+                  "producer": {
+                    "id": "83c07e33-e4ee-4d03-87a8-f701f0b2733b",
+                    "cpfCnpj": "233.860.966-20",
+                    "name": "Meghan Homenick",
+                    "farmName": "Fay and Sons",
+                    "city": "9131 8th Avenue",
+                    "state": "Fountain Valley",
+                    "totalAreaHectares": 783.2581830173731,
+                    "cultivableAreaHectares": 293.5453816796653,
+                    "vegetationAreaHectares": 244.6063102835324,
+                    "producerCrops": [
+                      {
+                        "id": "896b1e41-b77d-48c3-8c5f-0d36cae8b653",
+                        "cropName": "Soybean",
+                        "areaHectares": 104.2,
+                        "created_at": "2024-01-21T10:49:53.335Z",
+                        "updated_at": "2024-01-21T10:49:53.335Z"
+                      },
+                      {
+                        "id": "b23a3c9d-bbb0-4c54-9e38-26b2603f95d6",
+                        "cropName": "Rice",
+                        "areaHectares": 100,
+                        "created_at": "2024-01-21T10:49:53.335Z",
+                        "updated_at": "2024-01-21T10:49:53.335Z"
+                      },
+                      {
+                        "id": "4c7c1d52-8bec-4cc7-92c5-f8e549035ec7",
+                        "cropName": "Cotton",
+                        "areaHectares": 100,
+                        "created_at": "2024-01-21T10:49:53.335Z",
+                        "updated_at": "2024-01-21T10:49:53.335Z"
+                      },
+                      {
+                        "id": "df9eea60-f278-40d8-a47d-59b0ff3792f6",
+                        "cropName": "Rice",
+                        "areaHectares": 100,
+                        "created_at": "2024-01-21T10:49:53.335Z",
+                        "updated_at": "2024-01-21T10:49:53.335Z"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Invalid CPF or CNPJ / producerCrops is required"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get all producers",
+        "tags": [
+          "Producers"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "producers found.",
+                  "numberOfProducers": 1,
+                  "producers": {
+                    "id": "d790f88e-c545-44a6-a23b-141f3fe7cc5b",
+                    "cpfCnpj": "267.214.123-14",
+                    "name": "Meghan Homenick",
+                    "farmName": "Fay and Sons",
+                    "city": "Fountain Valley",
+                    "state": "9131 8th Avenue",
+                    "totalAreaHectares": 983.2581830173731,
+                    "cultivableAreaHectares": 293.5453816796653,
+                    "vegetationAreaHectares": 244.6063102835324,
+                    "created_at": "2024-01-19T19:39:59.241Z",
+                    "updated_at": "2024-01-19T19:39:59.241Z",
+                    "producerCrops": [
+                      {
+                        "id": "058d3593-40fa-4bfd-9b9f-b65eb9d866ce",
+                        "cropName": "Soybean",
+                        "areaHectares": 104.2,
+                        "created_at": "2024-01-19T19:39:59.241Z",
+                        "updated_at": "2024-01-19T19:39:59.241Z"
+                      },
+                      {
+                        "id": "175ca736-def2-492b-a12b-6072a67c1fcd",
+                        "cropName": "Rice",
+                        "areaHectares": 100,
+                        "created_at": "2024-01-19T19:39:59.241Z",
+                        "updated_at": "2024-01-19T19:39:59.241Z"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/producers/{id}": {
+      "get": {
+        "summary": "Get producer by ID",
+        "tags": [
+          "Producers"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "producer found.",
+                  "producer": {
+                    "id": "d790f88e-c545-44a6-a23b-141f3fe7cc5b",
+                    "cpfCnpj": "267.214.123-14",
+                    "name": "Meghan Homenick",
+                    "farmName": "Fay and Sons",
+                    "city": "Fountain Valley",
+                    "state": "9131 8th Avenue",
+                    "totalAreaHectares": 983.2581830173731,
+                    "cultivableAreaHectares": 293.5453816796653,
+                    "vegetationAreaHectares": 244.6063102835324,
+                    "created_at": "2024-01-19T19:39:59.241Z",
+                    "updated_at": "2024-01-19T19:39:59.241Z",
+                    "producerCrops": [
+                      {
+                        "id": "058d3593-40fa-4bfd-9b9f-b65eb9d866ce",
+                        "cropName": "Soybean",
+                        "areaHectares": 104.2,
+                        "created_at": "2024-01-19T19:39:59.241Z",
+                        "updated_at": "2024-01-19T19:39:59.241Z"
+                      },
+                      {
+                        "id": "175ca736-def2-492b-a12b-6072a67c1fcd",
+                        "cropName": "Rice",
+                        "areaHectares": 100,
+                        "created_at": "2024-01-19T19:39:59.241Z",
+                        "updated_at": "2024-01-19T19:39:59.241Z"
+                      },
+                      {
+                        "id": "4f812360-3cf2-4cef-9edf-ab0b69b35aed",
+                        "cropName": "Cotton",
+                        "areaHectares": 100,
+                        "created_at": "2024-01-19T19:39:59.241Z",
+                        "updated_at": "2024-01-19T19:39:59.241Z"
+                      },
+                      {
+                        "id": "18639886-191f-4683-a4ef-f8db4ca90127",
+                        "cropName": "Rice",
+                        "areaHectares": 100,
+                        "created_at": "2024-01-19T19:39:59.241Z",
+                        "updated_at": "2024-01-19T19:39:59.241Z"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "No producer was found with this id"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a producer by ID",
+        "tags": [
+          "Producers"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "AAAA",
+                "cpfCnpj": "267.214.123-14",
+                "farmName": "Fay and Sons",
+                "city": "Fountain Valley",
+                "state": "9131 8th Avenue",
+                "totalAreaHectares": 783.2581830173731,
+                "cultivableAreaHectares": 293.5453816796653,
+                "vegetationAreaHectares": 244.6063102835324,
+                "producerCrops": [
+                  {
+                    "cropName": "Soybean",
+                    "areaHectares": 104.2
+                  },
+                  {
+                    "cropName": "Rice",
+                    "areaHectares": 104.2
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "producer updated successfully.",
+                  "producer": {
+                    "id": "d790f88e-c545-44a6-a23b-141f3fe7cc5b",
+                    "cpfCnpj": "267.214.123-14",
+                    "name": "AAAA",
+                    "farmName": "Fay and Sons",
+                    "city": "Fountain Valley",
+                    "state": "9131 8th Avenue",
+                    "totalAreaHectares": 783.2581830173731,
+                    "cultivableAreaHectares": 293.5453816796653,
+                    "vegetationAreaHectares": 244.6063102835324,
+                    "created_at": "2024-01-19T19:39:59.241Z",
+                    "updated_at": "2024-01-21T21:21:49.114Z",
+                    "producerCrops": [
+                      {
+                        "cropName": "Soybean",
+                        "areaHectares": 104.2,
+                        "id": "d790f88e-c545-44a6-a23b-141f3fe7cc5b",
+                        "created_at": "2024-01-21T21:21:49.114Z",
+                        "updated_at": "2024-01-21T21:21:49.114Z"
+                      },
+                      {
+                        "cropName": "Rice",
+                        "areaHectares": 104.2,
+                        "id": "d790f88e-c545-44a6-a23b-141f3fe7cc5b"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "statusCode": 400,
+                  "code": "FST_ERR_CTP_EMPTY_JSON_BODY",
+                  "error": "Bad Request",
+                  "message": "Body cannot be empty when content-type is set to 'application/json'"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a producer by ID",
+        "tags": [
+          "Producers"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "500": {
+            "description": "Error deleting producer"
+          }
+        }
+      }
+    },
+    "/dashboard/": {
+      "get": {
+        "summary": "Get full data",
+        "tags": [
+          "Dashboard"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "dashboardData": {
+                    "totalQuantity": "2,",
+                    "totalHectares": "1566.5163660347462,",
+                    "farmsByState": {
+                      "9131 8th Avenue": 1,
+                      "Fountain Valley": 2
+                    },
+                    "farmsByCrop": {
+                      "Rice": 1,
+                      "Cotton": 2,
+                      "Soybean": 4
+                    },
+                    "landUsageRatio": {
+                      "cultivableArea": 587.0907633593306,
+                      "vegetationArea": 489.2126205670648,
+                      "totalArea": 1566.5163660347462
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dashboard/total-quantity": {
+      "get": {
+        "summary": "Get total quantity",
+        "tags": [
+          "Dashboard"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "totalQuantity": 3
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dashboard/total-hectares": {
+      "get": {
+        "summary": "Get total hectares",
+        "tags": [
+          "Dashboard"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "totalHectares": 2549.7745490521193
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dashboard/farms-by-state": {
+      "get": {
+        "summary": "Get farms by state",
+        "tags": [
+          "Dashboard"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "farmsByState": {
+                    "9131 8th Avenue": 2,
+                    "Fountain Valley": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dashboard/farms-by-crop": {
+      "get": {
+        "summary": "Get farms by crop",
+        "tags": [
+          "Dashboard"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "farmsByCrop": {
+                    "Rice": 6,
+                    "Cotton": 3,
+                    "Soybean": 3
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dashboard/land-usage-ratio": {
+      "get": {
+        "summary": "Get land usage ratio",
+        "tags": [
+          "Dashboard"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "landUsageRatio": {
+                    "cultivableArea": 880.6361450389959,
+                    "vegetationArea": 733.8189308505972,
+                    "totalArea": 2549.7745490521193
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

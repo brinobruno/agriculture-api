@@ -22,7 +22,7 @@ app.register(dashboardRoutes, {
 
 app.register(fastifySwagger, {
   mode: 'static',
-  specification: { path: './swagger.yaml', baseDir: './swagger.yaml' },
+  specification: { path: './swagger.json', baseDir: './swagger.json' },
 })
 app.register(fastifySwaggerUI, {
   routePrefix: 'api/v1/docs',
