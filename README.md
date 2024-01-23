@@ -44,11 +44,16 @@ using: npm
     npm run dev
 
 ## Run the tests
+using: yarn
 
-    ./run-tests.sh
+    yarn test
+    
+using: npm
 
-## Endpoints
-Check swagger.yaml for more info
+    npm run test
+
+## Docs (endpoints)
+`GET /api/v1/docs` (Browser)
 
 ### Producers
 `POST /api/v1/producers`
