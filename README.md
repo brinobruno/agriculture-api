@@ -1,7 +1,5 @@
 # REST API - Brain agriculture
 
-The entire application is contained within the `app.rb` file.
-
 ## Pre-requisites
 - Node 18
 - Postgres
@@ -31,6 +29,15 @@ using: yarn
 using: npm
 
     npm i
+
+## Run migrations
+using: yarn
+
+    yarn typeorm
+    
+using: npm
+
+    npm run typeorm
 
 ## Run the app
 using: yarn

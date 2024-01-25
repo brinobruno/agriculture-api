@@ -8,7 +8,8 @@
     "test": "jest --detectOpenHandles --runInBand --force-exit",
     "build": "tsup src --out-dir build --external @jest/globals --external supertest",
     "lint": "eslint src --ext .ts",
-    "lint-fix": "eslint src --ext .ts --fix"
+    "lint-fix": "eslint src --ext .ts --fix",
+    "typeorm": "yarn build && typeorm migration:run -d build/config/ormconfig.js"
   },
   "devDependencies": {
     "@brinobruno/eslint-config": "^2.0.4",

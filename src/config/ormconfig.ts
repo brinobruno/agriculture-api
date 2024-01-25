@@ -2,14 +2,16 @@ import 'reflect-metadata'
 import { DataSource } from 'typeorm'
 
 import { env } from '../env'
+import { Producer } from '../Entities/Producer'
+import { ProducerCrop } from '../Entities/ProducerCrop'
 
 const connectDB = new DataSource({
   type: 'postgres',
   url: env.DATABASE_URI,
   logging: false,
   synchronize: true,
-  entities: ['./src/Entities/**/*.ts'],
-  migrations: ['./src/migrations/*.ts'],
+  entities: [Producer, ProducerCrop],
+  migrations: ['**/migrations/**/*.{js}'],
   extra: {
     ssl: {
       rejectUnauthorized: false,
