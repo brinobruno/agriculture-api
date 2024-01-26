@@ -7,11 +7,14 @@ import { ProducerCrop } from '../Entities/ProducerCrop'
 
 const connectDB = new DataSource({
   type: 'postgres',
-  url: env.DATABASE_URI,
+  host: env.DATABASE_HOST,
+  port: env.DATABASE_PORT,
+  username: env.DATABASE_USER,
+  password: env.DATABASE_PASSWORD,
+  database: env.DATABASE_NAME,
   logging: false,
   synchronize: true,
   entities: [Producer, ProducerCrop],
-  migrations: ['**/migrations/**/*.{js}'],
   extra: {
     ssl: {
       rejectUnauthorized: false,
