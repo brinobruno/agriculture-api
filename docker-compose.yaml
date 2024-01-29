@@ -24,6 +24,15 @@ services:
       - db
     volumes:
     - .:/usr/src/app
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - PORT_NUMBER=${PORT}
+      - DB_CLIENT=${DATABASE_CLIENT}
+      - DB_USER=${DATABASE_USER}
+      - DB_HOST=${DATABASE_HOST}
+      - DB_NAME=${DATABASE_NAME}
+      - DB_PASSWORD=${DATABASE_PASSWORD}
+      - DB_PORT=${DATABASE_PORT}
 
 volumes: 
  data: {}

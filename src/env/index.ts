@@ -13,7 +13,7 @@ const envSchema = z.object({
 
   DATABASE_CLIENT: z.enum(['pg']),
   DATABASE_HOST: z.string(),
-  DATABASE_PORT: z.coerce.number().default(5433),
+  DATABASE_PORT: z.coerce.number().default(5432),
   DATABASE_USER: z.string(),
   DATABASE_PASSWORD: z.string(),
   DATABASE_NAME: z.string(),

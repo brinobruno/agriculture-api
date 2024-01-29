@@ -7,7 +7,7 @@ import { ProducerCrop } from '../Entities/ProducerCrop'
 
 const connectDB = new DataSource({
   type: 'postgres',
-  host: env.DATABASE_HOST,
+  host: env.DATABASE_HOST, // For docker 'db' or the service id
   port: env.DATABASE_PORT,
   username: env.DATABASE_USER,
   password: env.DATABASE_PASSWORD,
@@ -16,9 +16,7 @@ const connectDB = new DataSource({
   synchronize: true,
   entities: [Producer, ProducerCrop],
   extra: {
-    ssl: {
-      rejectUnauthorized: false,
-    },
+    ssl: false,
   },
 })
 
@@ -31,6 +29,7 @@ const initializeDataSource = async () => {
     if (isNotTestEnv) console.log(`Data Source has been initialized`)
   } catch (err) {
     console.error(`Data Source initialization error`, err)
+    console.log(connectDB.driver)
   }
 }
 
