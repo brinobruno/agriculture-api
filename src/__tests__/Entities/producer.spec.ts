@@ -6,7 +6,7 @@ import {
   afterAll,
   beforeEach,
   afterEach,
-} from '@jest/globals'
+} from 'vitest'
 import { QueryFailedError } from 'typeorm'
 import { faker } from '@faker-js/faker'
 

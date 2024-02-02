@@ -6,7 +6,7 @@ import {
   afterAll,
   beforeEach,
   afterEach,
-} from '@jest/globals'
+} from 'vitest'
 
 import {
   initializeDataSource,
