@@ -1,18 +1,23 @@
-# Installs Node.js image
+# Use Node.js version 18 as the base image
 FROM node:18.0.0
 
-# sets the working directory for any RUN, CMD, COPY command
-# all files we put in the Docker container running the server will be in /usr/src/app (e.g. /usr/src/app/package.json)
-WORKDIR /usr/src/app
+# Install the 'tsx' package globally
+RUN npm i -g tsx
 
-# Copies package.json, yarn.lock, tsconfig.json, .env to the root of WORKDIR
-COPY ["package.json", "yarn.lock", "tsconfig.json", ".env", "./src/env/index.ts", "./"]
+# Set the working directory for subsequent commands
+WORKDIR /app
 
-# Copies everything in the src directory to WORKDIR/src
-COPY ./src ./src
+# Copy package.json and tsconfig.json to the container's WORKDIR
+COPY ["package.json", "./"]
 
-# Installs all packages
+# Install project dependencies using 'yarn'
 RUN yarn
 
-# Runs the dev npm script to build & start the server
-CMD yarn dev
+# Copy the entire content of the current directory to WORKDIR
+COPY . .
+
+# Expose port 3000 to the outside world
+EXPOSE 3000
+
+# Command to run when the container starts
+CMD yarn docker:run
