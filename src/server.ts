@@ -7,6 +7,7 @@ app.register(async () => await initializeDataSource())
 
 app
   .listen({
+    host: '0.0.0.0', // Listens on all IPv4 addresses (Solves my docker req issues)
     port: env.PORT,
   })
   .then(() => {
