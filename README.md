@@ -2,62 +2,30 @@
 
 ## Pre-requisites
 - Node 18
-- Postgres
 - Yarn/NPM
 
 ## Getting started
 
     git clone https://github.com/brinobruno/agriculture-api <local_dir>
 
-## Environment variables: DEV (also check .env)
-- NODE_ENV=development
-- DATABASE_URI=postgresql://YOUR_USER:YOUR_PASSWORD@localhost:5432/YOUR_DB_NAME
-- DATABASE_CLIENT=pg
-- PORT=3000
+### Running the app with Docker
+    docker compose up -d --build
 
-## Environment variables: TEST (also check .env)
-- NODE_ENV='test'
-- DATABASE_URI=postgresql://YOUR_USER:YOUR_PASSWORD@localhost:5432/YOUR_TESTING_DB_NAME
-- DATABASE_CLIENT=pg
-- PORT=3000
+### Running the app without Docker
+Create database and add .env and...
 
-## Install dependencies
-using: yarn
-
+### Install dependencies
     yarn
-    
-using: npm
 
-    npm i
-
-## Run migrations
-using: yarn
-
+### Run migrations
     yarn typeorm
-    
-using: npm
 
-    npm run typeorm
-
-## Run the app
-using: yarn
-
+### Run the app
     cd <local_dir>
     yarn dev
-    
-using: npm
 
-    cd <local_dir>
-    npm run dev
-
-## Run the tests
-using: yarn
-
+### Run the tests (after running migration on testing db)
     yarn test
-    
-using: npm
-
-    npm run test
 
 ## Docs (endpoints)
 `GET /api/v1/docs` (Browser)
@@ -85,3 +53,10 @@ using: npm
 `GET /api/v1/dashboard/farms-by-crop`
 
 `GET /api/v1/dashboard/land-usage-ratio`
+
+## Troubleshooting
+In case you have a postgres service already running, you may have database_port problems, in that case, run:
+
+    sudo service postgresql stop
+
+...or equivalent of stopping postgres service
