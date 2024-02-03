@@ -3,6 +3,7 @@ services:
   db:
     container_name: postgres
     image: 'postgres:14'
+    restart: always
     expose:
       - ${DATABASE_PORT}
     ports:
@@ -18,12 +19,16 @@ services:
     container_name: api
     restart: always
     build: .
+    command: ["yarn", "dev"]
+    expose:
+      - ${PORT}
     ports:
       - ${PORT}:${PORT}
     depends_on:
       - db
     volumes:
-    - .:/usr/src/app
+    - .:/app
+    - nodemodules:/src/node_modules
     environment:
       - NODE_ENV=${NODE_ENV}
       - PORT_NUMBER=${PORT}
@@ -36,3 +41,8 @@ services:
 
 volumes: 
  data: {}
+ nodemodules: {}
+
+networks:
+  brain_agriculture_network:
+    external: true
