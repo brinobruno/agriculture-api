@@ -27,84 +27,89 @@ type createOrUpdateProducerType = {
   producerCrops: { cropName: string; areaHectares: number }[]
 }
 
-export const createProducer = async (
-  producerBodyData: createOrUpdateProducerType,
-) => {
-  let producerCrops: ProducerCrop[] = []
+export const producerService = {
+  async createProducer(producerBodyData: createOrUpdateProducerType) {
+    let producerCrops: ProducerCrop[] = []
 
-  const { cultivableAreaHectares, vegetationAreaHectares, totalAreaHectares } =
-    producerBodyData
+    const {
+      cultivableAreaHectares,
+      vegetationAreaHectares,
+      totalAreaHectares,
+    } = producerBodyData
 
-  validateUsedLand({
-    cultivableArea: cultivableAreaHectares,
-    vegetationArea: vegetationAreaHectares,
-    totalArea: totalAreaHectares,
-  })
+    validateUsedLand({
+      cultivableArea: cultivableAreaHectares,
+      vegetationArea: vegetationAreaHectares,
+      totalArea: totalAreaHectares,
+    })
 
-  validateProducerCrops({ producerCrops: producerBodyData.producerCrops })
+    validateProducerCrops({ producerCrops: producerBodyData.producerCrops })
 
-  producerCrops = producerBodyData.producerCrops.map(
-    (crop) => new ProducerCrop({ ...crop, id: v4() }),
-  )
+    producerCrops = producerBodyData.producerCrops.map(
+      (crop) => new ProducerCrop({ ...crop, id: v4() }),
+    )
 
-  const producer = new Producer({
-    ...producerBodyData,
-    producerCrops,
-  })
+    const producer = new Producer({
+      ...producerBodyData,
+      producerCrops,
+    })
 
-  const createdProducer = await saveProducer(producer)
+    const createdProducer = await saveProducer(producer)
 
-  return createdProducer
-}
+    return createdProducer
+  },
 
-export const getAllProducers = async () => {
-  return await findAllProducers()
-}
+  async getAllProducers() {
+    return await findAllProducers()
+  },
 
-export const getProducerById = async (id: string) => {
-  const producerFound = await findOneProducer(id)
-  if (!producerFound) throw new Error('No producer was found with this id')
+  async getProducerById(id: string) {
+    const producerFound = await findOneProducer(id)
+    if (!producerFound) throw new Error('No producer was found with this id')
 
-  return producerFound
-}
+    return producerFound
+  },
 
-export const updateProducerById = async (
-  id: string,
-  producerBodyData: createOrUpdateProducerType,
-) => {
-  let producerCrops: ProducerCrop[] = []
+  async updateProducerById(
+    id: string,
+    producerBodyData: createOrUpdateProducerType,
+  ) {
+    let producerCrops: ProducerCrop[] = []
 
-  const { cultivableAreaHectares, vegetationAreaHectares, totalAreaHectares } =
-    producerBodyData
+    const {
+      cultivableAreaHectares,
+      vegetationAreaHectares,
+      totalAreaHectares,
+    } = producerBodyData
 
-  validateUsedLand({
-    cultivableArea: cultivableAreaHectares,
-    vegetationArea: vegetationAreaHectares,
-    totalArea: totalAreaHectares,
-  })
+    validateUsedLand({
+      cultivableArea: cultivableAreaHectares,
+      vegetationArea: vegetationAreaHectares,
+      totalArea: totalAreaHectares,
+    })
 
-  validateProducerCrops({ producerCrops: producerBodyData.producerCrops })
+    validateProducerCrops({ producerCrops: producerBodyData.producerCrops })
 
-  const existingProducer = await findOneProducer(id)
-  if (!existingProducer) throw new Error('Producer not found')
+    const existingProducer = await findOneProducer(id)
+    if (!existingProducer) throw new Error('Producer not found')
 
-  producerCrops = producerBodyData.producerCrops.map(
-    (crop) => new ProducerCrop({ ...crop, id }),
-  )
+    producerCrops = producerBodyData.producerCrops.map(
+      (crop) => new ProducerCrop({ ...crop, id }),
+    )
 
-  const updatedProducer = await updateProducer(id, {
-    ...existingProducer,
-    ...producerBodyData,
-    producerCrops,
-  })
+    const updatedProducer = await updateProducer(id, {
+      ...existingProducer,
+      ...producerBodyData,
+      producerCrops,
+    })
 
-  return updatedProducer
-}
+    return updatedProducer
+  },
 
-export const deleteProducerById = async (id: string) => {
-  const existingProducer = await findOneProducer(id)
+  async deleteProducerById(id: string) {
+    const existingProducer = await findOneProducer(id)
+    if (!existingProducer) throw new Error('Producer not found')
 
-  if (!existingProducer) throw new Error('Producer not found')
-
-  await deleteProducer(id)
+    await deleteProducer(id)
+  },
 }

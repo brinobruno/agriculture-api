@@ -22,12 +22,7 @@ import { Producer } from '../Entities/Producer'
 import { ProducerCrop } from '../Entities/ProducerCrop'
 import { cpfCnpjValidator } from '../shared/validateCpfCnpj'
 import { validateUsedLand } from '../shared/validateLand'
-import {
-  createProducer,
-  deleteProducerById,
-  getProducerById,
-  updateProducerById,
-} from '../modules/producer/producer.services'
+import { producerService } from '../modules/producer/producer.services'
 import { CONSTANTS } from '../shared/constants'
 
 describe('Producer Entity', () => {
@@ -48,8 +43,12 @@ describe('Producer Entity', () => {
     // Arrange
     const { producerMockData, producerInstance } = createMockProducer()
 
-    const createdProducer = await createProducer(producerInstance)
-    const retrievedProducer = await getProducerById(createdProducer.id)
+    const createdProducer = await producerService.createProducer(
+      producerInstance,
+    )
+    const retrievedProducer = await producerService.getProducerById(
+      createdProducer.id,
+    )
 
     // Assert
     expect(createdProducer).toBeDefined()
@@ -61,8 +60,12 @@ describe('Producer Entity', () => {
     // Arrange
     const { producerCropInstance, producerInstance } = createMockProducer()
 
-    const createdProducer = await createProducer(producerInstance)
-    const retrievedProducer = await getProducerById(createdProducer.id)
+    const createdProducer = await producerService.createProducer(
+      producerInstance,
+    )
+    const retrievedProducer = await producerService.getProducerById(
+      createdProducer.id,
+    )
 
     // Assert
     expect(createdProducer.producerCrops).toEqual(
@@ -109,7 +112,7 @@ describe('Producer Entity', () => {
         producerCrops: producerCropInstance,
       })
 
-      await createProducer(producerInstance)
+      await producerService.createProducer(producerInstance)
 
       throw new Error()
     } catch (error: any) {
@@ -127,7 +130,7 @@ describe('Producer Entity', () => {
       // Act
       const producerInstance = new Producer(producerMockData) // No crops provided
 
-      await createProducer(producerInstance)
+      await producerService.createProducer(producerInstance)
 
       throw new Error()
     } catch (error) {
@@ -152,7 +155,7 @@ describe('Producer Entity', () => {
         vegetationAreaHectares: vegetationArea,
         totalAreaHectares: totalArea,
       })
-      await createProducer(producerInstance)
+      await producerService.createProducer(producerInstance)
 
       validateUsedLand({
         cultivableArea: producerInstance.cultivableAreaHectares,
@@ -171,8 +174,12 @@ describe('Producer Entity', () => {
     // Arrange
     const { producerInstance } = createMockProducer()
 
-    const createdProducer = await createProducer(producerInstance)
-    const retrievedProducer = await getProducerById(createdProducer.id)
+    const createdProducer = await producerService.createProducer(
+      producerInstance,
+    )
+    const retrievedProducer = await producerService.getProducerById(
+      createdProducer.id,
+    )
 
     expect(retrievedProducer).toBeDefined()
     expect(createdProducer).toEqual(retrievedProducer)
@@ -181,14 +188,16 @@ describe('Producer Entity', () => {
   it('should be able to delete a producer', async () => {
     try {
       const { producerInstance } = createMockProducer()
-      await createProducer(producerInstance)
+      await producerService.createProducer(producerInstance)
 
-      const existingProducer = await getProducerById(producerInstance.id)
+      const existingProducer = await producerService.getProducerById(
+        producerInstance.id,
+      )
       expect(existingProducer).toBeDefined()
 
-      await deleteProducerById(producerInstance.id)
+      await producerService.deleteProducerById(producerInstance.id)
 
-      await getProducerById(producerInstance.id)
+      await producerService.getProducerById(producerInstance.id)
 
       throw new Error()
     } catch (error) {
@@ -199,19 +208,23 @@ describe('Producer Entity', () => {
   it('should be able to edit a producer', async () => {
     const { producerMockData, producerInstance } = createMockProducer()
 
-    await createProducer(producerInstance)
+    await producerService.createProducer(producerInstance)
 
-    const existingProducer = await getProducerById(producerInstance.id)
+    const existingProducer = await producerService.getProducerById(
+      producerInstance.id,
+    )
     expect(existingProducer).toBeDefined()
     expect(existingProducer?.name).toEqual(producerMockData.name)
 
-    await updateProducerById(producerInstance.id, {
+    await producerService.updateProducerById(producerInstance.id, {
       ...producerInstance,
       name: CONSTANTS.TEST_NAME_TO_UPDATE,
       farmName: CONSTANTS.TEST_FARMNAME_TO_UPDATE,
     })
 
-    const updatedProducer = await getProducerById(producerInstance.id)
+    const updatedProducer = await producerService.getProducerById(
+      producerInstance.id,
+    )
 
     expect(updatedProducer).toBeDefined()
     expect(updatedProducer?.name).toEqual(CONSTANTS.TEST_NAME_TO_UPDATE)

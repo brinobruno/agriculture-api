@@ -2,13 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { v4 } from 'uuid'
 
 import { createAndUpdateProducerSchema } from './producer.schema'
-import {
-  createProducer,
-  deleteProducerById,
-  getAllProducers,
-  getProducerById,
-  updateProducerById,
-} from './producer.services'
+import { producerService } from './producer.services'
 import { setIdParamsSchema } from '../../shared/schemas'
 
 export const producerController = {
@@ -17,7 +11,10 @@ export const producerController = {
     const producerDataBody = createAndUpdateProducerSchema.parse(request.body)
 
     try {
-      const producer = await createProducer({ ...producerDataBody, id })
+      const producer = await producerService.createProducer({
+        ...producerDataBody,
+        id,
+      })
 
       return reply.status(201).send({
         message: 'Producer created successfully',
@@ -32,7 +29,7 @@ export const producerController = {
 
   async getAll(_request: FastifyRequest, reply: FastifyReply) {
     try {
-      const producers = await getAllProducers()
+      const producers = await producerService.getAllProducers()
 
       return reply.status(200).send({
         message: `${producers.length} producers found.`,
@@ -51,7 +48,7 @@ export const producerController = {
     const { id } = getProducerParamsSchema.parse(request.params)
 
     try {
-      const producer = await getProducerById(id)
+      const producer = await producerService.getProducerById(id)
 
       return reply.status(200).send({
         message: 'producer found.',
@@ -71,7 +68,10 @@ export const producerController = {
     const producerDataBody = createAndUpdateProducerSchema.parse(request.body)
 
     try {
-      const producer = await updateProducerById(id, { ...producerDataBody, id })
+      const producer = await producerService.updateProducerById(id, {
+        ...producerDataBody,
+        id,
+      })
 
       return reply.status(200).send({
         message: 'producer updated successfully.',
@@ -89,7 +89,7 @@ export const producerController = {
     const { id } = getProducerParamsSchema.parse(request.params)
 
     try {
-      await deleteProducerById(id)
+      await producerService.deleteProducerById(id)
       return reply.status(204).send()
     } catch (error) {
       console.error('Error deleting producer:', error)

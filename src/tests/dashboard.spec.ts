@@ -14,7 +14,7 @@ import {
   truncateDatabase,
 } from '../config/ormconfig'
 import { app } from '../app'
-import { createProducer } from '../modules/producer/producer.services'
+import { producerService } from '../modules/producer/producer.services'
 import { dashboardService } from '../modules/dashboard/dashboard.services'
 import { CONSTANTS } from '../shared/constants'
 import { createMockProducer } from '../scripts/createMockProducer'
@@ -41,7 +41,7 @@ describe('Dashboard features', () => {
     // Act
     for (let i = 0; i < numberOfProducers; i++) {
       const { producerInstance } = createMockProducer()
-      await createProducer(producerInstance)
+      await producerService.createProducer(producerInstance)
 
       producersCount++
     }
@@ -60,7 +60,7 @@ describe('Dashboard features', () => {
     // Act
     for (let i = 0; i < numberOfProducers; i++) {
       const { producerInstance } = createMockProducer()
-      await createProducer(producerInstance)
+      await producerService.createProducer(producerInstance)
 
       totalHectares += producerInstance.totalAreaHectares
     }
@@ -79,7 +79,7 @@ describe('Dashboard features', () => {
     // Act
     for (let i = 0; i < numberOfProducers; i++) {
       const { producerInstance } = createMockProducer()
-      await createProducer(producerInstance)
+      await producerService.createProducer(producerInstance)
     }
 
     const farmsByState = await dashboardService.getFarmsByState()
@@ -103,7 +103,7 @@ describe('Dashboard features', () => {
     // Act
     for (let i = 0; i < numberOfProducers; i++) {
       const { producerInstance } = createMockProducer()
-      await createProducer(producerInstance)
+      await producerService.createProducer(producerInstance)
 
       producerInstance.producerCrops.forEach(({ cropName }) => {
         expectedFarmsByCrop[cropName] = (expectedFarmsByCrop[cropName] || 0) + 1
@@ -124,7 +124,7 @@ describe('Dashboard features', () => {
     // Act
     for (let i = 0; i < numberOfProducers; i++) {
       const { producerInstance } = createMockProducer()
-      await createProducer(producerInstance)
+      await producerService.createProducer(producerInstance)
 
       expectedLandUsage.cultivable += producerInstance.cultivableAreaHectares
       expectedLandUsage.vegetation += producerInstance.vegetationAreaHectares

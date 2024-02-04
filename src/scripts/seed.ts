@@ -1,5 +1,5 @@
 import { initializeDataSource, closeDataSource } from '../config/ormconfig'
-import { createProducer } from '../modules/producer/producer.services'
+import { producerService } from '../modules/producer/producer.services'
 import { createMockProducer } from '../scripts/createMockProducer'
 
 async function seedDatabase(numberOfProducers: number): Promise<void> {
@@ -8,7 +8,7 @@ async function seedDatabase(numberOfProducers: number): Promise<void> {
 
     for (let i = 0; i < numberOfProducers; i++) {
       const { producerInstance } = createMockProducer()
-      await createProducer(producerInstance)
+      await producerService.createProducer(producerInstance)
     }
 
     console.log(`Database seeded with ${numberOfProducers} producers.`)
