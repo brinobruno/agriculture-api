@@ -24,8 +24,6 @@ export const dashboardService = {
   },
 
   getLandUsageRatio: async () => {
-    // Implement logic to calculate land usage ratio
-    // Example:
     const producers = await dashboardRepository.getTotalFarms()
     const totalCultivableArea = producers.reduce(
       (total, producer) => total + producer.cultivableAreaHectares,
