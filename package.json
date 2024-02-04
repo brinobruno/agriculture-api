@@ -10,6 +10,7 @@
     "test:ui": "vitest --ui",
     "lint": "eslint src --ext .ts",
     "lint-fix": "eslint src --ext .ts --fix",
+    "seed": "tsx src/scripts/seed.ts",
     "migration:run": "yarn build && typeorm migration:run -d build/config/ormconfig.js",
     "docker:migration:run": "typeorm migration:run -d build/config/ormconfig.js"
   },

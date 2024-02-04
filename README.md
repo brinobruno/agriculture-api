@@ -31,6 +31,9 @@ Create database and add .env and...
 ### Run migrations
     yarn typeorm
 
+### Seed database
+    yarn seed NUMBER_OF_PRODUCERS
+
 ### Run the app
     cd <local_dir>
     yarn dev
