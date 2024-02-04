@@ -20,7 +20,16 @@ Enter execute a command in running container (api container - check with docker 
 
 then:
 
-    pnpm migration:run
+    yarn migration:run
+
+### Seed database
+Enter execute a command in running container (api container - check with docker ps -> CONTAINER ID)
+
+    docker exec -it CONTAINER_ID /bin/bash
+
+then:
+
+    yarn seed NUMBER_OF_PRODUCERS
 
 ## Running the app without Docker
 Create database and add .env and...
@@ -29,7 +38,7 @@ Create database and add .env and...
     yarn
 
 ### Run migrations
-    yarn typeorm
+    yarn migration:run
 
 ### Seed database
     yarn seed NUMBER_OF_PRODUCERS
