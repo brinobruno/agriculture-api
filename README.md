@@ -8,10 +8,21 @@
 
     git clone https://github.com/brinobruno/agriculture-api <local_dir>
 
-### Running the app with Docker
+## Running the app with Docker
+### Build images and run the containers
+
     docker compose up -d --build
 
-### Running the app without Docker
+### Run migrations
+Enter execute a command in running container (api container - check with docker ps -> CONTAINER ID)
+
+    docker exec -it CONTAINER_ID /bin/bash
+
+then:
+
+    pnpm migration:run
+
+## Running the app without Docker
 Create database and add .env and...
 
 ### Install dependencies

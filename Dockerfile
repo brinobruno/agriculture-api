@@ -20,4 +20,4 @@ COPY . .
 EXPOSE 3000
 
 # Command to run when the container starts
-CMD yarn docker:run
+CMD yarn dev
