@@ -14,21 +14,21 @@ import {
   initializeDataSource,
   closeDataSource,
   truncateDatabase,
-} from '../../config/ormconfig'
-import { app } from './../../app'
-import { generateCrop, generateProducer } from '../../scripts/generateMockData'
-import { createMockProducer } from '../../scripts/createMockProducer'
-import { Producer } from '../../Entities/Producer'
-import { ProducerCrop } from '../../Entities/ProducerCrop'
-import { cpfCnpjValidator } from '../../shared/validateCpfCnpj'
-import { validateUsedLand } from '../../shared/validateLand'
+} from '../config/ormconfig'
+import { app } from '../app'
+import { generateCrop, generateProducer } from '../scripts/generateMockData'
+import { createMockProducer } from '../scripts/createMockProducer'
+import { Producer } from '../Entities/Producer'
+import { ProducerCrop } from '../Entities/ProducerCrop'
+import { cpfCnpjValidator } from '../shared/validateCpfCnpj'
+import { validateUsedLand } from '../shared/validateLand'
 import {
   createProducer,
   deleteProducerById,
   getProducerById,
   updateProducerById,
-} from '../../modules/producer/producer.services'
-import { CONSTANTS } from '../../shared/constants'
+} from '../modules/producer/producer.services'
+import { CONSTANTS } from '../shared/constants'
 
 describe('Producer Entity', () => {
   /* Make sure app (and thefore its routes) and db are done loading before testing */

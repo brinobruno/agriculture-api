@@ -13,7 +13,7 @@ import {
   closeDataSource,
   truncateDatabase,
 } from '../config/ormconfig'
-import { app } from './../app'
+import { app } from '../app'
 import { createProducer } from '../modules/producer/producer.services'
 import { dashboardService } from '../modules/dashboard/dashboard.services'
 import { CONSTANTS } from '../shared/constants'
