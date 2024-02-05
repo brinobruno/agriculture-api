@@ -9,7 +9,7 @@ services:
     ports:
       - ${DATABASE_PORT}:${DATABASE_PORT}
     volumes:
-      - data:/data/db
+      - postgres_data:/data/db
     environment:
       - POSTGRES_USER=${DATABASE_USER}
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
@@ -40,7 +40,7 @@ services:
       - DB_PORT=${DATABASE_PORT}
 
 volumes: 
- data: {}
+ postgres_data: {}
  nodemodules: {}
 
 networks:
