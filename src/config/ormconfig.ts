@@ -13,6 +13,7 @@ const connectDB = new DataSource({
   password: env.DATABASE_PASSWORD,
   database: env.DATABASE_NAME,
   logging: false,
+  synchronize: true, // For development
   entities: [Producer, ProducerCrop],
   migrations: ['migrations/**/*{.ts, .js}'],
   extra: {
