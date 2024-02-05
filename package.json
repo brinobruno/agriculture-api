@@ -11,8 +11,7 @@
     "lint": "eslint src --ext .ts",
     "lint-fix": "eslint src --ext .ts --fix",
     "seed": "tsx src/scripts/seed.ts",
-    "migration:run": "yarn build && typeorm migration:run -d build/config/ormconfig.js",
-    "docker:migration:run": "typeorm migration:run -d build/config/ormconfig.js"
+    "migration:run": "yarn build && typeorm migration:run -d build/config/ormconfig.js"
   },
   "devDependencies": {
     "@brinobruno/eslint-config": "^2.0.4",
